@@ -1,0 +1,53 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel8
+
+---
+
+- name: snmp.yml - snmp installed
+  dnf:
+    name: net-snmp
+    state: present
+  tags:
+    - snmp
+
+- name: snmp.yml - Create snmpd.conf
+  copy:
+    src: ../files/el8/etc/snmp/snmpd.conf
+    dest: /etc/snmp/snmpd.conf
+    owner: root
+    group: root
+    mode: 0600
+  tags:
+    - snmp
+    - snmp_update
+
+- name: snmp.yml - Create snmpd.d directory
+  file: 
+    path: /etc/snmp/snmp.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755 
+  tags:
+    - snmp
+
+- name: snmp.yml - Set firewall rule to allow snmp
+  firewalld:
+    zone: public
+    service: snmp
+    permanent: true
+    state: enabled
+  tags:
+    - snmp
+
+- name: snmp.yml - snmp enabled and running
+  service:
+    name: snmpd
+    enabled: true
+    state: restarted
+  tags:
+    - snmp

@@ -1,0 +1,12 @@
+--- 
+- name: Run RHEL Base roles 
+  hosts: all
+  roles: 
+    - rhel
+  pre_tasks: 
+    - name: "Pre ping test" 
+      ping: 
+  tasks: 
+    - name: "Post ping test" 
+      ping:
+

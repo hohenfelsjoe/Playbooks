@@ -1,0 +1,94 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel8
+
+---
+- name: dnf_update.yml - Set Tags
+  tags:
+  - dnf_update 
+  block:
+
+  - name: yum_update.yml - Install epel 8
+    dnf: 
+      name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+      state: present
+      disable_gpg_check: yes
+
+  - name: dnf_update.yml - Install the STIG packages
+    dnf:
+      name:
+        - tmux
+        - psmisc
+        - nmap-ncat.x86_64
+        - nmap.x86_64
+        - bash-completion.noarch
+        - net-tools
+        - nc
+        - wget
+        - yum-utils
+        - audispd-plugins
+        - audit
+        - dstat
+        - dracut-fips
+        - expect
+        - kernel-doc
+        - net-snmp
+        - net-snmp-utils
+        - mlocate
+        - openscap
+        - open-vm-tools
+        - rsyslog
+        - scap-security-guide
+        - sysstat
+        - system-storage-manager
+        - tree
+        - vim
+        - vim-enhanced
+        - dhclient
+        - rsyslog
+        - sos
+        - lsof
+        - strace
+        - tcpdump
+        - bind-utils
+        - dnf-automatic
+        - rsyslog-gnutls
+        - libcap-ng-utils
+        - policycoreutils-python-utils
+        - usbguard
+        - rng-tools
+        - opensc
+        - esc
+        - lshw
+      state: present
+      disable_gpg_check: yes
+    #ignore_errors: yes
+
+  - name: dnf_update.yml - remove packages (RHEL 8)
+    dnf:
+      name: 
+        - pigz
+        - iprutils
+        - tuned
+        - gssproxy
+      state: removed
+      disable_gpg_check: yes
+    #ignore_errors: yes
+    
+  - name: dnf_update.yml - upgrade all packages
+    dnf:
+      name: '*'
+      state: latest
+      disable_gpg_check: yes
+    #ignore_errors: yes
+
+  - name: dnf_update.yml - Enable dnf-automatic Timer
+    service:
+      name: dnf-automatic.timer
+      enabled: true
+      state: started
+  
+  

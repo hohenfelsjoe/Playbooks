@@ -1,0 +1,39 @@
+---
+
+- set_fact:
+    rhel__os: "rhel7"
+- import_tasks: gpg_check_enabled.yml
+- import_tasks: gpg_installed.yml
+- import_tasks: install_AIDE.yml
+- import_tasks: install_v2s.yml
+- import_tasks: ssh.yml
+- import_tasks: yum_update.yml
+- import_tasks: file_permissions.yml
+- import_tasks: disable_ctrl-alt-del.yml
+- import_tasks: disable_interactive_startup.yml
+- import_tasks: no_empty_password_auth.yml
+- import_tasks: modprobe_crisp.yml
+- import_tasks: user_settings.yml
+- import_tasks: passwd_setting.yml
+- import_tasks: root_tty.yml
+- import_tasks: firewall-firewalld.yml
+- import_tasks: verify_permissions_with_rpm.yml
+- import_tasks: verify_hashes_with_RPM.yml
+- import_tasks: disable_kdump.yml
+- import_tasks: limit_resources.yml
+- import_tasks: grub2_settings.yml
+- import_tasks: timeout.yml
+- import_tasks: cron_settings.yml
+- import_tasks: umask_settings.yml
+- import_tasks: logging.yml
+- import_tasks: ntp7.yml
+- import_tasks: restrict_su.yml
+- import_tasks: disable_ipv6_zeroconf.yml
+- import_tasks: postfix.yml
+- import_tasks: disableNetManager.yml
+- import_tasks: audit_rules_el7.yml
+- import_tasks: audit_d.yml
+- import_tasks: fstab_settings.yml
+- import_tasks: venafi.yml
+- import_tasks: snmp.yml
+- import_tasks: share.yml

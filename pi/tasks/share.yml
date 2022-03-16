@@ -1,0 +1,34 @@
+---
+- name: nfs.yml - Set Tags
+  tags:
+  - share
+  - nfs 
+  block:
+
+  - name: nfs.yml - latest samba version installed
+    apt:
+      name: 
+        - smbclient
+        - cifs-utils
+      state: latest
+
+  - name: nfs.yml - make mount point
+    file:
+      path: /mnt/share
+      state: directory
+
+  - name: nfs.yml - Get Secret
+    copy:
+        src: /home/erik/.smbcredentials
+        dest: /home/erik/.smbcredentials
+        owner: erik
+        group: erik
+        mode: 0600
+
+  - name: nfs.yml - mount cifs
+    mount:
+      path: /mnt/share
+      src: //172.16.4.76/NAS
+      fstype: cifs
+      opts: "credentials=/home/erik/.smbcredentials,uid=erik,gid=erik"
+      state: present

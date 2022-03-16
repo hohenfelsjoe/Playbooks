@@ -1,0 +1,14 @@
+# Ansible Playbook
+#
+# Reviewed: 04/21/21
+#
+# For:
+# - rhel7
+
+---
+- name: restrict_su.yml - Restrict su in PAM
+  lineinfile:
+    path: /etc/pam.d/su
+    backrefs: yes
+    regexp: '^#auth		required	pam_wheel.so use_uid'
+    line: 'auth		required	pam_wheel.so use_uid'

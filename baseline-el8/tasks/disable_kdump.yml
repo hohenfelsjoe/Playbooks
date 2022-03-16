@@ -1,0 +1,34 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel8
+
+---
+- name: disable_kdump.yml - Set Tags
+  tags:
+  - disable_kdump 
+  block:
+
+  - name: disable_kdump.yml - Stop the kdump service and disable
+    service:
+      name: kdump
+      enabled: no
+      state: stopped
+
+  - name: disable_kdump.yml - Stop the systemd-coredump@service service and disable
+    service:
+      name: systemd-coredump@service
+      enabled: no
+      state: stopped
+
+  - name: disable_kdump.yml - Copy coredump.conf
+    copy:
+      src: ../files/el8/etc/systemd/coredump.conf
+      dest: /etc/systemd/
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644
+      force: yes

@@ -1,0 +1,142 @@
+# Ansible Playbook 
+# Erik van Oudheusden erik.vanoudheusden@va.gov - 21 Sep 2017
+#
+# Install Lamp
+
+---
+- name: lamp.yml - Install the packages
+  yum:
+    name:
+      - httpd
+      - mariadb-server
+      - mariadb
+      - php
+      - php-pdo
+      - php-pecl-zip 
+      - php-json 
+      - php-common 
+      - php-fpm 
+      - php-mbstring 
+      - php-cli 
+      - php-mysqlnd 
+      - php-json 
+      - php-mbstring
+      - php-gd
+      - php-opcache
+      - php-xml 
+      - wget 
+      - unzip
+      - mod_ssl
+      - openssl
+      - python36
+      - python2
+      
+ 
+- name: lamp.yml - Set firewall rule to allow http  
+  firewalld:
+    zone: public
+    service: http
+    permanent: true
+    state: enabled
+  
+- name: lamp.yml - Set firewall rule to allow https  
+  firewalld:
+    zone: public
+    service: https
+    permanent: true
+    state: enabled
+  
+- name: lamp.yml - Set firewall rule to allow http  
+  firewalld:
+    zone: public
+    service: http
+    permanent: true
+    state: enabled
+  
+- name: lamp.yml - Reload Firewall
+  service: name=firewalld state=restarted
+
+- name: lamp.yml - Web service enabled and running
+  service:
+    name: httpd
+    enabled: true
+    state: started
+ 
+- name: lamp.yml - MariaDB enabled and running
+  service:
+    name: mariadb
+    enabled: true
+    state: started
+  
+- name: lamp.yml - edit test.php
+  blockinfile: 
+    path: /var/www/html/test.php
+    create: yes
+    backup: yes
+    marker: "{mark} KJETT Test Page!"
+    owner: apache
+    group: apache
+    mode: 0644
+    content: |
+      <?php phpinfo(); ?>
+
+#- name: lamp.yml - Create phpmyadmin Directory
+#  file: 
+#    path: /usr/share/phpmyadmin
+#    state: directory
+#    owner: apache
+#    group: apache
+#    mode: 0777
+
+- name: lamp.yml - unzip phpMyAdmin
+  unarchive:
+    src: ../files/phpmyadmin.zip
+    dest: /usr/share/
+
+- name: lamp.yml - rename directory
+  command: "mv /usr/share/phpMyAdmin-4.9.2-all-languages /usr/share/phpmyadmin"
+
+- name: lamp.yml - copy phpmyadmin.conf
+  copy:
+    src: ../files/phpmyadmin.conf
+    dest: /etc/httpd/conf.d/phpmyadmin.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: lamp.yml - copy config.inc.php
+  copy:
+    src: ../files/config.inc.php
+    dest: /usr/share/phpmyadmin/
+    owner: apache
+    group: apache
+    mode: 0644
+
+- name: lamp.yml - Create phpmyadmin Directory
+  file: 
+    path: /usr/share/phpmyadmin/tmp
+    state: directory
+    owner: apache
+    group: apache
+    mode: 0777
+
+- name: lamp.yml - copy phpsql script
+  copy:
+    src: ../files/mysql.sh
+    dest: /root
+    owner: root
+    group: root
+    mode: 0755
+
+- name: lamp.yml - Create DB
+  command: /root/mysql.sh
+  
+- name: lamp.yml - Restart http
+  service:
+      name: httpd
+      state: restarted
+  
+- name: lamp.yml - Restart MariaDB
+  service:
+      name: mariadb
+      state: restarted

@@ -1,0 +1,21 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel8
+
+---
+- name: disable_interactive_startup.yml - Set Tags
+  tags:
+  - disable_interactive_startup 
+  block:
+
+  - name: disable_interactive_startup.yml - Copy /etc/sysconfig/init
+    copy:
+      src: ../files/el8/etc/sysconfig/init
+      dest: /etc/sysconfig/init
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644

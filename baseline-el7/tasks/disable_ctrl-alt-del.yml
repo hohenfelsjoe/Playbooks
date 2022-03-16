@@ -1,0 +1,13 @@
+# Ansible Playbook
+# Reviewed: 04/21/21
+# Disable Ctrl-Alt-Del Reboot Activation
+#
+# For:
+# - rhel7
+
+---
+- name: disable_ctrl-alt-del.yml - Disable Ctrl-Alt-Del Reboot Activation (systemd)
+  file:
+    src: /dev/null
+    dest: /etc/systemd/system/ctrl-alt-del.target
+    state: link

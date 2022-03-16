@@ -1,0 +1,11 @@
+---
+- name: Run Baseline / STIG roles
+  hosts: all
+  roles:
+    - baseline-el7
+  pre_tasks:
+    - name: "Pre ping test"
+      ping:
+  tasks:
+    - name: "Post ping test"
+      ping:

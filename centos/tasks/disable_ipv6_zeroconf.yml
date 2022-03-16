@@ -1,0 +1,47 @@
+# Ansible Playbook 
+#
+# 6.14.17 Disable ipv6 and 6.14.23.1 Disable Zeroconf Networking
+#
+# For:
+# - centos6
+# - centos7
+
+---
+- name: disable_ipv6_zeroconf - edit ipv6.conf
+  blockinfile: 
+    path: /etc/sysctl.d/ipv6.conf
+    create: yes
+    backup: yes
+    marker: "## {mark} Added for KJETT Security"
+    owner: root
+    group: root
+    mode: 0644
+    content: |
+      net.ipv6.conf.all.disable_ipv6 = 1
+      net.ipv6.conf.default.disable_ipv6 = 1
+      #Disable accepting IPv6 router advertisements
+      net.ipv6.conf.default.accept_ra = 0
+      # Disable Accepting IPv6 Redirects
+      net.ipv6.conf.default.accept_redirects = 0
+      
+- name: disable_ipv6_zeroconf - edit /etc/sysconfig/network
+  blockinfile: 
+    path: /etc/sysconfig/network
+    insertafter: '# Created by anaconda'
+    block: |
+      NETWORKING_IPV6=no 
+      IPV6INIT=no
+      NOZEROCONF=yes
+
+- name: disable_ipv6_zeroconf - edit disabled.conf
+  blockinfile: 
+    path: /etc/modprobe.d/disabled.conf
+    create: yes
+    backup: yes
+    marker: "## {mark} Added for KJETT Security"
+    owner: root
+    group: root
+    mode: 0644
+    content: |
+      options ipv6 disable=1
+  when: rhel__os == "centos6"

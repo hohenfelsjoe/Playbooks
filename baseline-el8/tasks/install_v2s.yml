@@ -1,0 +1,54 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel8
+
+---
+- name: install_v2s.yml - Set Tags
+  tags:
+  - install_v2s 
+  block:
+
+  - name: install_v2s.yml - Create BES Client Directory
+    file:
+      path: /etc/opt/BESClient
+      state: directory
+      owner: root
+      group: root
+      mode: 0755
+
+  - name: install_v2s.yml - Install Bigfix RHEL 8
+    command: rpm -i http://oitphcmulrep6.r02.med.va.gov/repo/0/x86_64/bigfix/BESAgent-9.5.15.71-rhe6.x86_64.rpm --nodigest --nofiledigest --force
+
+  - name: install_v2s.yml - Set firewall UDP rule to allow Bigfix
+    firewalld:
+      zone: public
+      port: 52311/udp
+      permanent: true
+      state: enabled
+
+  - name: install_v2s.yml - Set firewall TCP rule to allow Bigfix
+    firewalld:
+      zone: public
+      port: 52311/tcp
+      permanent: true
+      state: enabled
+
+  - name: install_v2s.yml - Install Encase RHEL 8
+    command: rpm -i http://oitphcmulrep6.r02.med.va.gov/repo/0/x86_64/encase/encase-9.0.21.400-2.x86_64.rpm --nodigest --nofiledigest --force
+
+  #- name: install_v2s.yml - install Encase
+  #  yum:
+  #    name: encase
+  #    state: present
+  #    disable_gpg_check: yes
+    #ignore_errors: yes
+
+  - name: install_v2s.yml - install snmp
+    yum:
+      name: net-snmp
+      state: present
+      disable_gpg_check: yes
+    #ignore_errors: yes

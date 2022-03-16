@@ -1,0 +1,50 @@
+---
+- name: erik.yml - Set Tags
+  tags:
+  - erik
+  block:
+
+  - name: erik.yml - Copy bashrc
+    copy:
+      src: /home/erik/.bashrc
+      dest: /home/erik/.bashrc
+      owner: erik
+      group: erik
+      mode: 0644
+
+  - name: erik.yml - Install Erik's the packages
+    apt:
+      name:
+        - vim
+        - vim-common
+        - rkhunter
+        - ntp
+        - rrdtool
+        - bc
+        - logwatch
+        - clamav
+      state: latest
+      
+  - name: erik.yml - Copy vimrc
+    copy:
+      src: /home/erik/.vimrc
+      dest: /home/erik/.vimrc
+      owner: erik
+      group: erik
+      mode: 0644
+
+  - name: erik.yml - Create bin Directory
+    file: 
+      path: /home/erik/bin
+      state: directory
+      owner: erik
+      group: erik
+      mode: 0755
+      
+  - name: erik.yml - Copy morning script
+    copy:
+      src: /home/erik/bin/morning.sh
+      dest: /home/erik/bin/morning.sh
+      owner: erik
+      group: erik
+      mode: 0755

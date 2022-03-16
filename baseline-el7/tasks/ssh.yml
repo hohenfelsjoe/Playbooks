@@ -1,0 +1,39 @@
+# Ansible Playbook
+# Reviewed: 04/21/21
+# Configure OpenSSH Server if Necessary
+#
+# For:
+# - rhel7
+
+---
+- name: ssh.yml - latest sshd version installed
+  yum:
+    name: openssh-server
+    state: present
+  ignore_errors: yes
+
+- name: ssh.yml - Set issue.net banner
+  copy:
+    src: ../files/el7/etc/issue
+    dest: /etc/issue
+    backup: yes
+    owner: root
+    group: root
+    force: yes
+
+- name: ssh.yml - Copy SSH Config
+  copy:
+    src: ../files/el7/etc/ssh/sshd_config
+    dest: /etc/ssh/sshd_config
+    backup: yes
+    owner: root
+    group: root
+    mode: 0600
+    force: yes
+
+- name: ssh.yml - SSH enabled and running
+  service:
+    name: sshd
+    enabled: true
+    state: restarted
+  ignore_errors: yes

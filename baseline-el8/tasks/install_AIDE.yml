@@ -1,0 +1,40 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel8
+
+---
+- name: install_AIDE.yml - Set Tags
+  tags:
+  - install_AIDE 
+  block:
+
+  - name: install_AIDE.yml - Ensure aide is installed
+    dnf:
+      name:
+        - aide
+      state: present
+      disable_gpg_check: yes
+    #ignore_errors: yes
+
+  - name: install_AIDE.yml - Initialize AIDE
+    command: /usr/sbin/aide --init
+
+  - name: install_AIDE.yml - copy aide
+    copy:
+      src: ../files/el8/etc/cron.daily/aide
+      dest: /etc/cron.daily/
+      owner: root
+      group: root
+      mode: 0750
+
+  - name: install_AIDE.yml - copy aide.conf
+    copy:
+      src: ../files/el8/etc/aide.conf
+      dest: /etc/aide.conf
+      owner: root
+      group: root
+      mode: 0600
+    

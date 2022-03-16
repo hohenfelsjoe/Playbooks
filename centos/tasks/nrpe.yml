@@ -1,0 +1,59 @@
+---
+- name: nrpe.yml - latest nrpe installed
+  yum:
+    name: nrpe
+    state: latest
+  
+- name: nrpe.yml - latest nrpe plugins installed
+  yum:
+    name: nagios-plugins-all
+    state: latest
+  
+- name: nrpe.yml - NRPE enabled and running
+  service:
+    name: nrpe
+    enabled: true
+    state: started
+  
+- name: nrpe.yml - copy nrpe.cfg
+  copy:
+    src: ../files/nrpe.cfg
+    dest: /etc/nagios/nrpe.cfg
+    owner: root
+    group: root
+    mode: 0644
+    
+- name: nrpe.yml - Set firewall rule to allow nagios (upd)
+  firewalld:
+    zone: public
+    port: 5666/udp
+    permanent: true
+    state: enabled
+  
+- name: nrpe.yml - Set firewall rule to allow nagios (tcp) 
+  firewalld:
+    zone: public
+    port: 5666/tcp
+    permanent: true
+    state: enabled
+  
+- name: nrpe.yml - Reload Firewall
+  service: name=firewalld state=restarted
+  
+- name: nrpe.yml - create index.html for nagios check
+  blockinfile: 
+    path: /var/www/html/index.html
+    create: yes
+    backup: yes
+    marker: "{mark} KJETT Test Page!"
+    owner: apache
+    group: apache
+    mode: 0644
+    content: |
+      Test page for nagios, safe to be replaced!
+  
+- name: nrpe.yml - reload_nrpe
+  service: 
+    name: nrpe
+    state: restarted
+      

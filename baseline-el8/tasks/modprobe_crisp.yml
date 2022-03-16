@@ -1,0 +1,21 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel8
+
+---
+- name: modprobe_crisp.yml - Set Tags
+  tags:
+  - modprobe_crisp 
+  block:
+
+  - name: modprobe_crisp.yml - Copy crisp.conf to modprobe.d
+    copy:
+      src: ../files/el8/etc/modprobe.d/crisp.conf
+      dest: /etc/modprobe.d/crisp.conf
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644

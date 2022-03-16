@@ -1,0 +1,20 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel8
+
+---
+- name: gpg_check_enabled_dnf.yml - Set Tags
+  tags:
+  - gpg_check_enabled_dnf 
+  block:
+
+  - name: gpg_check_enabled_dnf.yml - Copy DNF conf file
+    copy:
+      src: ../files/el8/etc/dnf/dnf.conf
+      dest: /etc/dnf/dnf.conf
+      owner: root
+      group: root
+      mode: 0644

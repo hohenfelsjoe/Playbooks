@@ -1,0 +1,72 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel8
+
+---
+- name: logging.yml - Set Tags
+  tags:
+  - logging 
+  block:
+
+  - name: logging.yml - copy sudo.conf
+    copy:
+      src: ../files/el8/etc/rsyslog.d/sudo.conf
+      dest: /etc/rsyslog.d/sudo.conf
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: logging.yml - copy sudoers
+    copy:
+      src: ../files/el8/etc/sudoers
+      dest: /etc/sudoers
+      backup: yes
+      owner: root
+      group: root
+      mode: 0440
+
+  - name: logging.yml - copy sudoers for logging
+    copy:
+      src: ../files/el8/etc/logrotate.d/sudoers
+      dest: /etc/logrotate.d/sudoers
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: logging.yml - copy logrotate.conf
+    copy:
+      src: ../files/el8/etc/logrotate.conf
+      dest: /etc/logrotate.conf
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: logging.yml - copy rsyslog.conf
+    copy:
+      src: ../files/el8/etc/rsyslog.conf
+      dest: /etc/rsyslog.conf
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: logging.yml - create directory
+    file:
+      path: /etc/audisp/plugins.d
+      state: directory
+      mode: '0755'
+
+  - name: rsyslog-hse.yml - Copy au-remote.conf
+    copy:
+      src: ../files/el8/etc/audisp/au-remote.conf
+      dest: /etc/audisp/plugins.d/au-remote.conf
+      backup: yes
+      owner: root
+      group: root
+      mode: 0640 

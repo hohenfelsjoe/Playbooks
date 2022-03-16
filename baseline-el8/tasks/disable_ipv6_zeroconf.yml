@@ -1,0 +1,21 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel8
+
+---
+- name: disable_ipv6_zeroconf.yml - Set Tags
+  tags:
+  - disable_ipv6_zeroconf 
+  block:
+
+  - name: disable_ipv6_zeroconf.yml - Copy network file
+    copy:
+      src: ../files/el8/etc/sysconfig/network
+      dest: /etc/sysconfig/network
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644

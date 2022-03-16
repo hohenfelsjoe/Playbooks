@@ -1,0 +1,13 @@
+# Ansible Playbook
+# Reviewed: 04/21/21
+# Disable KDump Kernel Crash Analyzer (kdump)
+#
+# For:
+# - rhel7
+
+---
+- name: disable_kdump.yml - Stop the kdump service and disable
+  service:
+    name: kdump
+    enabled: no
+    state: stopped

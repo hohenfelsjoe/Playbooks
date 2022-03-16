@@ -1,0 +1,75 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+# For:
+# - rhel8
+
+---
+- name: kernel8.yml - Set Tags
+  tags:
+  - kernel8 
+  block:
+
+  - name: kernel8.yml - copy 50-crisp.conf
+    copy:
+      src: ../files/el8/etc/sysctl.d/50-crisp.conf
+      dest: /etc/sysctl.d/
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: kernel8.yml - copy 51-crisp.conf
+    copy:
+      src: ../files/el8/etc/sysctl.d/51-crisp8.conf
+      dest: /etc/sysctl.d/
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: kernel8.yml - copy 50-coredump.conf - etc
+    copy:
+      src: ../files/el8/etc/sysctl.d/50-coredump.conf
+      dest: /etc/sysctl.d/
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: kernel8.yml - copy 50-coredump.conf - lib
+    copy:
+      src: ../files/el8/etc/sysctl.d/50-coredump.conf
+      dest: /lib/sysctl.d/
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: kernel8.yml - copy 10-default-yama-scope.conf - etc
+    copy:
+      src: ../files/el8/etc/sysctl.d/10-default-yama-scope.conf
+      dest: /etc/sysctl.d/
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: kernel8.yml - copy 10-default-yama-scope.conf - lib
+    copy:
+      src: ../files/el8/etc/sysctl.d/10-default-yama-scope.conf
+      dest: /lib/sysctl.d/
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: kernel8.yml - copy 99-ipv6.conf.conf
+    copy:
+      src: ../files/el8/etc/sysctl.d/99-ipv6.conf
+      dest: /etc/sysctl.d/
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644
+

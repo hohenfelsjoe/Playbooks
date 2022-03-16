@@ -1,0 +1,68 @@
+# Ansible Playbook
+# Reviewed: 05/21/21
+#
+# For:
+# - rhel8
+
+---
+- name: z_erik.yml - Set Tags
+  tags:
+  - erik 
+  block:
+
+  - name: Add erik to aliases
+    lineinfile:
+      path: /etc/aliases
+      insertafter: '#root:          marc'
+      line: 'root:           erik@fixer.hohenfels.mylocal'
+
+  - name: "New Aliases"
+    command: /usr/bin/newaliases
+
+  - name: Create Download Directory
+    file: 
+      path: /home/erik/Downloads
+      state: directory
+      owner: erik
+      group: erik
+      mode: 0755
+
+  - name: Create bin Directory
+    file: 
+      path: /home/erik/bin
+      state: directory
+      owner: erik
+      group: erik
+      mode: 0755
+
+  - name: Delete existing vimrc
+    file: path=/home/erik/.vimrc
+      state=absent
+
+  - name: copy vimrc
+    copy:
+      src: ../files/vimrc
+      dest: /home/erik/.vimrc
+      owner: erik
+      group: erik
+      mode: 0770
+    
+  - name: Delete existing bashrc
+    file: path=/home/erik/.bashrc
+      state=absent
+
+  - name: copy bashrc
+    copy:
+      src: ../files/bashrc
+      dest: /home/erik/.bashrc
+      owner: erik
+      group: erik
+      mode: 0770
+
+  - name: copy morning.sh
+    copy:
+      src: ../files/centos-morning.sh
+      dest: /home/erik/bin/morning.sh
+      owner: erik
+      group: erik
+      mode: 0750

@@ -1,0 +1,37 @@
+# Ansible Playbook
+# Reviewed: 04/21/21
+# For:
+# - rhel7
+
+---
+- name: snmp.yml - snmp installed
+  yum:
+    name: net-snmp
+    state: present
+  ignore_errors: yes
+
+- name: snmp.yml - Create snmpd.conf
+  copy:
+    src: ../files/el7/etc/snmp/snmpd.conf
+    dest: /etc/snmp/snmpd.conf
+    owner: root
+    group: root
+    mode: 0600
+
+- name: snmp.yml - Set firewall rule to allow snmp
+  firewalld:
+    zone: public
+    service: snmp
+    permanent: true
+    state: enabled
+
+- name: snmp.yml - Reload Firewall
+  service:
+    name: firewalld
+    state: started
+
+- name: snmp.yml - snmp enabled and running
+  service:
+    name: snmpd
+    enabled: true
+    state: restarted

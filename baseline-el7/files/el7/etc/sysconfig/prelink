@@ -1,0 +1,6 @@
+#Owner:           root
+#Group:           root
+#Mode:            600
+PRELINKING=no
+
+

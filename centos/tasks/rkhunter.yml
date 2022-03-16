@@ -1,0 +1,24 @@
+---
+- name: rkhunter.yml - latest rkhunter installed
+  yum:
+    name: rkhunter
+    state: latest
+  
+- name: rkhunter.yml - set root not allowed
+  lineinfile:
+    backup: yes
+    path: /etc/rkhunter.conf
+    regexp: '^ALLOW_SSH_ROOT_USER=unset'
+    line: 'ALLOW_SSH_ROOT_USER=no'
+  
+- name: rkhunter.yml - set root not allowed
+  lineinfile:
+    path: /etc/rkhunter.conf
+    regexp: '^ALLOW_SSH_PROT_V1=2'
+    line: 'ALLOW_SSH_PROT_V1=0'
+
+#- name: rkhunter.yml - Update
+#  command: /usr/bin/rkhunter --update
+
+#- name: rkhunter.yml - Scan
+#  command: /usr/bin/rkhunter --checkall

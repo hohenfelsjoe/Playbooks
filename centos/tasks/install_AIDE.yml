@@ -1,0 +1,47 @@
+# Ansible Playbook 
+#
+# Verify Integrity with AIDE
+#
+# For:
+# - centos6
+# - centos7
+
+---
+- name: install_AIDE - Ensure aide is installed
+  package:
+    name="{{item}}"
+    state=present
+  with_items:
+    - aide
+
+- name: install_AIDE - Initialize AIDE
+  command: /usr/sbin/aide --init
+
+- name: copy aide-check
+  copy:
+    src: aide-check
+    dest: /etc/cron.daily/
+    owner: root
+    group: root
+    mode: 0750
+
+- name: install_AIDE - Edit aide.conf
+  lineinfile:
+    path: /etc/aide.conf
+    backup: yes
+    insertafter: '^ALLXTRAHASHES ='
+    line: 'ALL = p+i+n+u+g+s+m+S+sha512+acl+xattrs'
+
+- name: install_AIDE - Set bin to all/sbin
+  lineinfile:
+    path: /etc/aide.conf
+    backrefs: yes
+    regexp: '^/bin/    CONTENT_EX'
+    line: '/bin/    ALL'
+
+- name: install_AIDE- Set sbin to all
+  lineinfile:
+    path: /etc/aide.conf
+    backrefs: yes
+    regexp: '^/sbin/   CONTENT_EX'
+    line: '/sbin/   ALL'

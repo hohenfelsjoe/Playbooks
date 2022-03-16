@@ -1,0 +1,38 @@
+# Ansible Playbook 
+#
+# Verify IPTables Enabled
+#
+# For:
+# - rhel6
+
+---
+- name: firewall-iptables - Latest firewall version installed
+  yum:
+    name: iptables
+    state: latest
+
+- name: firewall-iptables - Create ip6tables
+  blockinfile: 
+    path: /etc/sysconfig/ip6tables
+    create: yes
+    backup: yes
+    marker: "## {mark} Added for KJETT Security"
+    owner: root
+    group: root
+    mode: 0600
+    content: |
+      :INPUT DROP [0:0]
+      
+- name: firewall-iptables - Create iptables
+  blockinfile: 
+    path: /etc/sysconfig/iptables
+    create: yes
+    backup: yes
+    marker: "## {mark} Added for KJETT Security"
+    owner: root
+    group: root
+    mode: 0600
+    content: |
+      :INPUT DROP [0:0]
+      :FORWARD DROP [0:0]
+      

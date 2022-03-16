@@ -1,0 +1,3 @@
+###MAC Rules
+-w /etc/selinux/ -p wa -k MAC-policy
+

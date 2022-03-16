@@ -1,0 +1,15 @@
+# Ansible Playbook 
+#
+# 6.14.13 Restricting use of the SU commands
+#
+# For:
+# - centos6
+# - centos7
+
+---
+- name: restrict_su - Restrict su in PAM
+  lineinfile:
+    path: /etc/pam.d/su
+    backrefs: yes
+    regexp: '^#auth		required	pam_wheel.so use_uid'
+    line: 'auth		required	pam_wheel.so use_uid'

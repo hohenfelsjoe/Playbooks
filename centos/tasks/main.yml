@@ -1,0 +1,12 @@
+---
+- name: "Run CentOS Linux 6 tasks"
+  import_tasks: centos6.yml
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == '6'
+
+- name: "Run CentOS Linux 7 tasks"
+  import_tasks: centos7.yml
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == '7'
+
+- name: "Run CentOS Linux 8 tasks"
+  import_tasks: centos8.yml
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == '8'

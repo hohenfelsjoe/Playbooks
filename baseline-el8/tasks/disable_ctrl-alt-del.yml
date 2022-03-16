@@ -1,0 +1,27 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel8
+
+---
+- name: disable_ctrl-alt-del.yml - Set Tags
+  tags:
+  - disable_ctrl-alt-del 
+  block:
+
+  - name: disable_ctrl-alt-del.yml - Disable Ctrl-Alt-Del Reboot Activation (systemd)
+    file:
+      src: /dev/null
+      dest: /etc/systemd/system/ctrl-alt-del.target
+      state: link
+
+  - name: disable_ctrl-alt-del.yml - Edit /etc/init/control-alt-delete.conf (init)
+    copy:
+      src: ../files/el8/etc/systemd/system.conf
+      dest: /etc/systemd/system.conf
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644

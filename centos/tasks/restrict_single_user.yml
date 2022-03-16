@@ -1,0 +1,15 @@
+# Ansible Playbook 
+#
+# Require Authentication for Single User Mode
+#
+# For:
+# - centos6
+
+---
+- name: restrict_single_user - Require Authentication for Single User Mode
+  lineinfile:
+    path: /etc/sysconfig/init
+    backrefs: yes
+    regexp: '^SINGLE=/sbin/sushell'
+    line: 'SINGLE=/sbin/sulogin'
+

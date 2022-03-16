@@ -1,0 +1,21 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel8
+
+---
+- name: audit_d.yml - Set Tags
+  tags:
+  - audit_d 
+  block:
+
+  - name: audit_d.yml - Copy auditd.conf
+    copy:
+      src: ../files/el8/etc/audit/auditd.conf
+      dest: /etc/audit/auditd.conf
+      backup: yes
+      owner: root
+      group: root
+      mode: 0600

@@ -1,0 +1,4 @@
+#
+-a always,exit -F arch=b32 -S finit_module -F key=modules
+-a always,exit -F arch=b64 -S finit_module -F key=modules
+#

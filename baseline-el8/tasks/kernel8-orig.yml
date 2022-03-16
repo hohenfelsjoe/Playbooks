@@ -1,0 +1,180 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+# For:
+# - rhel8
+
+---
+- name: kernel8.yml - Set Tags
+  tags:
+  - kernel8 
+  block:
+
+  - name: kernel8.yml - Ensure sysctl kernel.perf_event_paranoid is set to 2
+    sysctl:
+      name: kernel.perf_event_paranoid
+      value: '2'
+      state: present
+      reload: true
+
+  - name: kernel8.yml - Ensure sysctl kernel.dmesg_restrict is set to 1
+    sysctl:
+      name: kernel.dmesg_restrict
+      value: '1'
+      state: present
+      reload: true
+
+  - name: kernel8.yml - Ensure sysctl kernel.yama.ptrace_scope is set to 1
+    sysctl:
+      name: kernel.yama.ptrace_scope
+      value: '1'
+      state: present
+      reload: true
+
+  - name: kernel8.yml - Ensure sysctl kernel.unprivileged_bpf_disabled is set to 1
+    sysctl:
+      name: kernel.unprivileged_bpf_disabled
+      value: '1'
+      state: present
+      reload: true
+
+  - name: kernel8.yml - Ensure sysctl net.core.bpf_jit_harden is set to 2
+    sysctl:
+      name: net.core.bpf_jit_harden
+      value: '2'
+      state: present
+      reload: true
+
+  - name: kernel8.yml - Ensure sysctl kernel.kexec_load_disabled is set to 1
+    sysctl:
+      name: kernel.kexec_load_disabled
+      value: '1'
+      state: present
+      reload: true
+
+  - name: kernel8.yml - Ensure sysctl net.ipv4.conf.default.send_redirects is set to 0
+    sysctl:
+      name: net.ipv4.conf.default.send_redirects
+      value: '0'
+      state: present
+      reload: true
+
+  - name: kernel8.yml - Ensure sysctl net.ipv4.conf.all.send_redirects is set to 0
+    sysctl:
+      name: net.ipv4.conf.all.send_redirects
+      value: '0'
+      state: present
+      reload: true
+
+  - name: kernel8.yml - Ensure sysctl net.ipv4.ip_forward is set to 0
+    sysctl:
+      name: net.ipv4.ip_forward
+      value: '0'
+      state: present
+      reload: true
+
+  - name: kernel8.yml - XCCDF Value sysctl_net_ipv4_conf_default_accept_redirects_value # promote to variable
+    set_fact:
+      sysctl_net_ipv4_conf_default_accept_redirects_value: !!str 0
+
+  - name: kernel8.yml - Ensure sysctl net.ipv4.conf.default.accept_redirects is set
+    sysctl:
+      name: net.ipv4.conf.default.accept_redirects
+      value: '{{ sysctl_net_ipv4_conf_default_accept_redirects_value }}'
+      state: present
+      reload: true
+
+  - name: kernel8.yml - XCCDF Value sysctl_net_ipv4_icmp_echo_ignore_broadcasts_value # promote to variable
+    set_fact:
+      sysctl_net_ipv4_icmp_echo_ignore_broadcasts_value: !!str 1
+
+  - name: kernel8.yml - Ensure sysctl net.ipv4.icmp_echo_ignore_broadcasts is set
+    sysctl:
+      name: net.ipv4.icmp_echo_ignore_broadcasts
+      value: '{{ sysctl_net_ipv4_icmp_echo_ignore_broadcasts_value }}'
+      state: present
+      reload: true
+
+  - name: kernel8.yml - XCCDF Value sysctl_net_ipv4_conf_default_secure_redirects_value # promote to variable
+    set_fact:
+      sysctl_net_ipv4_conf_default_secure_redirects_value: !!str 0
+
+  - name: kernel8.yml - Ensure sysctl net.ipv4.conf.default.secure_redirects is set
+    sysctl:
+      name: net.ipv4.conf.default.secure_redirects
+      value: '{{ sysctl_net_ipv4_conf_default_secure_redirects_value }}'
+      state: present
+      reload: true
+
+  - name: kernel8.yml - XCCDF Value sysctl_net_ipv4_tcp_syncookies_value # promote to variable
+    set_fact:
+      sysctl_net_ipv4_tcp_syncookies_value: !!str 1
+
+  - name: kernel8.yml - Ensure sysctl net.ipv4.tcp_syncookies is set
+    sysctl:
+      name: net.ipv4.tcp_syncookies
+      value: '{{ sysctl_net_ipv4_tcp_syncookies_value }}'
+      state: present
+      reload: true
+
+  - name: kernel8.yml - XCCDF Value sysctl_net_ipv4_conf_default_rp_filter_value # promote to variable
+    set_fact:
+      sysctl_net_ipv4_conf_default_rp_filter_value: !!str 1
+
+  - name: kernel8.yml - Ensure sysctl net.ipv4.conf.default.rp_filter is set
+    sysctl:
+      name: net.ipv4.conf.default.rp_filter
+      value: '{{ sysctl_net_ipv4_conf_default_rp_filter_value }}'
+      state: present
+      reload: true
+
+  - name: kernel8.yml - XCCDF Value sysctl_net_ipv4_conf_all_accept_redirects_value # promote to variable
+    set_fact:
+      sysctl_net_ipv4_conf_all_accept_redirects_value: !!str 0
+
+  - name: kernel8.yml - Ensure sysctl net.ipv4.conf.all.accept_redirects is set
+    sysctl:
+      name: net.ipv4.conf.all.accept_redirects
+      value: '{{ sysctl_net_ipv4_conf_all_accept_redirects_value }}'
+      state: present
+      reload: true
+
+  - name: kernel8.yml - XCCDF Value sysctl_net_ipv4_conf_default_accept_source_route_value # promote to variable
+    set_fact:
+      sysctl_net_ipv4_conf_default_accept_source_route_value: !!str 0
+
+  - name: kernel8.yml - Ensure sysctl net.ipv4.conf.default.accept_source_route is set
+    sysctl:
+      name: net.ipv4.conf.default.accept_source_route
+      value: '{{ sysctl_net_ipv4_conf_default_accept_source_route_value }}'
+      state: present
+      reload: true
+
+  - name: kernel8.yml - XCCDF Value sysctl_net_ipv4_conf_all_secure_redirects_value # promote to variable
+    set_fact:
+      sysctl_net_ipv4_conf_all_secure_redirects_value: !!str 0
+
+  - name: kernel8.yml - Ensure sysctl net.ipv4.conf.all.secure_redirects is set
+    sysctl:
+      name: net.ipv4.conf.all.secure_redirects
+      value: '{{ sysctl_net_ipv4_conf_all_secure_redirects_value }}'
+      state: present
+      reload: true
+
+  - name: kernel8.yml - copy 50-crisp.conf
+    copy:
+      src: ../files/el8/etc/sysctl.d/50-crisp.conf
+      dest: /etc/sysctl.d/
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: kernel8.yml - copy 51-crisp.conf
+    copy:
+      src: ../files/el8/etc/sysctl.d/51-crisp8.conf
+      dest: /etc/sysctl.d/
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644

@@ -1,0 +1,13 @@
+# Ansible Playbook 
+#
+# Ensure Software Patches Installed
+#
+# For:
+# - centos6
+# - centos7
+
+---
+- name: yum_update - upgrade all packages
+  yum:
+    name: '*'
+    state: latest

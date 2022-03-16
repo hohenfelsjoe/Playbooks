@@ -1,0 +1,30 @@
+# Ansible Playbook 
+#
+# Restrict Virtual Console Root Logins
+#
+# For:
+# - centos6
+# - centos7
+
+---
+- name: root_tty - Create Secure TTY
+  blockinfile: 
+    path: /etc/securetty
+    create: yes
+    backup: yes
+    marker: "## {mark} Added for KJETT Security"
+    owner: root
+    group: root
+    mode: 0600
+    content: |
+      #The primary system console device:
+      console
+      #The virtual console devices:
+      tty1
+      tty2
+      tty3
+      tty4
+      tty5	
+      tty6
+      
+

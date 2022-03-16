@@ -1,0 +1,24 @@
+# Ansible Playbook 
+#
+# Disable Ctrl-Alt-Del Reboot Activation
+#
+# For:
+# - centos6
+# - centos7
+
+---
+- name: disable_ctrl-alt-del - Disable Ctrl-Alt-Del Reboot Activation (systemd)
+  file:
+    src: /dev/null
+    dest: /etc/systemd/system/ctrl-alt-del.target
+    state: link
+  when: rhel__os == "centos7"
+
+- name: disable_ctrl-alt-del - Edit /etc/init/control-alt-delete.conf (init)
+  lineinfile:
+    path: /etc/init/control-alt-delete.conf
+    backup: yes
+    backrefs: yes
+    regexp: '^exec /sbin/shutdown -r now "Control-Alt-Delete pressed"'
+    line: 'exec /usr/bin/logger -p security.info "Control-Alt-Delete pressed"'
+  when: rhel__os == "centos6"

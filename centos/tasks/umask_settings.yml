@@ -1,0 +1,18 @@
+# Ansible Playbook 
+#
+# Ensure Default Umask settings 
+#
+# For:
+# - centos6
+# - centos7
+
+---
+- name: umask_settings - Add default umask
+  blockinfile:
+    backup: yes
+    insertbefore: 'SHELL=/bin/bash'
+    path: /etc/bashrc
+    content: |
+      # Set default permissions to exclude world rwx and group w - ## KJETT Baseline
+      umask 077
+      #

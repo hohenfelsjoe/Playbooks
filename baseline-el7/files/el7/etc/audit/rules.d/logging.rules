@@ -1,0 +1,5 @@
+# log_changes
+-w /etc/rsyslog.conf -p wa -k log_changes
+-w /etc/rsyslog.d -p wa -k log_changes
+-w /etc/audit -p wa -k log_changes
+

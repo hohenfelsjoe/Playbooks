@@ -1,0 +1,26 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel8
+
+---
+- name: fap_enable.yml - Set Tags
+  tags:
+  - fap_enable 
+  block:
+
+  - name: fap_enable.yml - fapolicyd conf file copy
+    copy:
+      src: ../files/el8/etc/fapolicyd/fapolicyd.conf
+      dest: /etc/fapolicyd/fapolicyd.conf
+      owner: root
+      group: fapolicyd
+      mode: 0644
+
+  - name: fap_enable.yml - Enable service fapolicyd
+    service:
+      name: fapolicyd
+      enabled: yes
+      state: started

@@ -1,0 +1,29 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel8
+
+---
+- name: fips_crypto.yml - Set Tags
+  tags:
+  - fips_crypto 
+  block:
+
+  - name: fips_crypto.yml - XCCDF Value var_system_crypto_policy 
+    set_fact:
+      var_system_crypto_policy: !!str FIPS:OSPP
+
+  - name: fips_crypto.yml - Verify that Crypto Policy is Set (runtime)
+    command: /usr/bin/fips-mode-setup --enable
+    
+  - name: fips_crypto.yml - Configure System Cryptography Policy
+    lineinfile:
+      path: /etc/crypto-policies/config
+      regexp: ^(?!#)(\S+)$
+      line: '{{ var_system_crypto_policy }}'
+      create: true
+
+  - name: fips_crypto.yml - Verify that Crypto Policy is Set (runtime)
+    command: /usr/bin/update-crypto-policies --set {{ var_system_crypto_policy }}

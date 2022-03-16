@@ -1,0 +1,154 @@
+# Ansible Playbook
+# Reviewed: 04/21/21
+# Set Password Quality Requirements with pam_pwquality
+
+---
+- name: passwd_setting.yml - Copy login.defs
+  copy:
+    src: ../files/el7/etc/login.defs
+    dest: /etc/login.defs
+    backup: yes
+    owner: root
+    group: root
+    mode: 0644
+
+- name: passwd_setting.yml - Copy pwquality.conf
+  copy:
+    src: ../files/el7/etc/security/pwquality.conf
+    dest: /etc/security/pwquality.conf
+    backup: yes
+    owner: root
+    group: root
+    mode: 0644
+
+- name: passwd_setting.yml - copy password-auth-va
+  copy:
+    src: ../files/el7/etc/pam.d/password-auth-va
+    dest: /etc/pam.d/password-auth-va
+    owner: root
+    group: root
+
+- name: passwd_setting.yml - Create sym link for password-auth
+  file:
+    src: /etc/pam.d/password-auth-va
+    dest: /etc/pam.d/password-auth
+    backup: yes
+    owner: root
+    group: root
+    state: link
+    force: yes
+
+- name: passwd_setting.yml - copy system-auth-va
+  copy:
+    src: ../files/el7/etc/pam.d/system-auth-va
+    dest: /etc/pam.d/system-auth-va
+    owner: root
+    group: root
+    backup: yes
+    force: yes
+
+- name: passwd_setting.yml - Create sym link for password-auth
+  file:
+    src: /etc/pam.d/system-auth-va
+    dest: /etc/pam.d/system-auth
+    backup: yes
+    owner: root
+    group: root
+    state: link
+    force: yes
+
+#- block:
+#  - name: passwd_setting.yml - Set Password to Maximum of Three Consecutive Repeating Characters
+#    lineinfile:
+#      path: /etc/security/pwquality.conf
+#      backrefs: yes
+#      regexp: '^# maxrepeat = 0'
+#      line: 'maxrepeat = 2'
+
+#  - name: passwd_setting.yml - Set Password Strength Minimum Digit Characters
+#    lineinfile:
+#      path: /etc/security/pwquality.conf
+#      backrefs: yes
+#      regexp: '^# dcredit = 1'
+#      line: 'dcredit = -1'
+
+#  - name: passwd_setting.yml - Set Password Minimum Length
+#    lineinfile:
+#      path: /etc/security/pwquality.conf
+#      backrefs: yes
+#      regexp: '^# minlen = 9'
+#      line: 'minlen = 12'
+
+#  - name: passwd_setting.yml - Set Password Strength Minimum Special Characters
+#    lineinfile:
+#      path: /etc/security/pwquality.conf
+#      backrefs: yes
+#      regexp: '^# ocredit = 1'
+#      line: 'ocredit = -1'
+
+#  - name: passwd_setting.yml - Set Password Strength Minimum Lowercase Characters
+#    lineinfile:
+#      path: /etc/security/pwquality.conf
+#      backrefs: yes
+#      regexp: '^# lcredit = 1'
+#      line: 'lcredit = -1'
+
+#  - name: passwd_setting.yml - Set Password Strength Minimum Different Characters
+#    lineinfile:
+#      path: /etc/security/pwquality.conf
+#      backrefs: yes
+#      regexp: '^# difok = 5'
+#      line: 'difok = 5'
+
+#  - name: passwd_setting.yml - Set Password Strength Minimum Different Categories
+#    lineinfile:
+#      path: /etc/security/pwquality.conf
+#      backrefs: yes
+#      regexp: '^# minclass = 0'
+#      line: 'minclass = 4'
+
+#  - name: passwd_setting.yml - Set Password to Maximum of Consecutive Repeating Characters from Same Character Class
+#    lineinfile:
+#      path: /etc/security/pwquality.conf
+#      backrefs: yes
+#      regexp: '^# maxclassrepeat = 0'
+#      line: 'maxclassrepeat = 4'
+
+#  - name: passwd_setting.yml - Set Password Strength Minimum Uppercase Characters
+#    lineinfile:
+#      path: /etc/security/pwquality.conf
+#      backrefs: yes
+#      regexp: '^# ucredit = 1'
+#      line: 'ucredit = -1'
+
+#  when: rhel__os == "rhel7"
+
+#- name: passwd_setting.yml - accounts_minimum_age_login_defs
+#  lineinfile:
+#    path: /etc/login.defs
+#    regexp: '^PASS_MIN_DAYS'
+#    line: 'PASS_MIN_DAYS  1'
+
+#- name: passwd_setting.yml - accounts_maximum_age_login_defs
+#  lineinfile:
+#    path: /etc/login.defs
+#    regexp: 'PASS_MAX_DAYS'
+#    line: 'PASS_MAX_DAYS  60'
+
+#- name: passwd_setting.yml - Set Password Minimum Length in login.defs
+#  lineinfile:
+#    path: /etc/login.defs
+#    regexp: '^PASS_MIN_LEN'
+#    line: 'PASS_MIN_LEN    14'
+
+#- name: passwd_setting.yml - Ensure the Logon Failure Delay is Set Correctly in login.defs Comment
+#  lineinfile:
+#    path: /etc/login.defs
+#    line: '#added by CRISP'
+
+#- name: passwd_setting.yml - Ensure the Logon Failure Delay is Set Correctly in login.defs
+#  lineinfile:
+#    path: /etc/login.defs
+#   insertafter: '#added by CRISP'
+#    line: 'FAIL_DELAY 15'
+

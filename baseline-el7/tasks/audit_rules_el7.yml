@@ -1,0 +1,13 @@
+# Ansible Playbook
+# Reviewed: 04/21/21
+# Adding required files to rules.d
+# RHEL 7
+
+---
+- name: audit_rules_el7.yml - Copy access.rules
+  copy:
+    src: ../files/el7/etc/audit/rules.d/
+    dest: /etc/audit/rules.d/
+    owner: root
+    group: root
+    mode: 0600

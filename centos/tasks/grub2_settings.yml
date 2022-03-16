@@ -1,0 +1,34 @@
+# Ansible Playbook 
+#
+# Enable Auditing for Processes Which Start Prior to the Audit Daemon and Disable Kernel Support for USB via Bootloader Configuration
+#
+# For:
+# - rhel7
+
+---
+- name: grub2_settings - Setup audit
+  lineinfile:
+    state: present
+    dest: /etc/default/grub
+    backup: yes
+    backrefs: yes
+    regexp: '^(GRUB_CMDLINE_LINUX=(?!.*audit)\"[^\"]+)(\".*)'
+    line: '\1 audit=1\2'
+  register: g1
+
+- name: grub2_settings - Disable ipv6
+  lineinfile:
+    state: present
+    dest: /etc/default/grub
+    backup: yes
+    backrefs: yes
+    regexp: '^(GRUB_CMDLINE_LINUX=(?!.*ipv6)\"[^\"]+)(\".*)'
+    line: '\1 ipv6.disable=1\2'
+  register: g2
+
+- block:
+  - name: grub2_settings - Rebuild GRUB
+    command: /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg
+  - name: Configure Running Kernel
+    command: /sbin/grubby --update-kernel=ALL --args="audit=1" --args="noipv6"
+  when: g1.changed or g2.changed

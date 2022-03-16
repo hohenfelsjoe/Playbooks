@@ -1,0 +1,23 @@
+# Ansible Playbook 
+# Erik van Oudheusden erik@viking-armory.com - 21 Sep 2017
+#
+# install extra packages
+
+---
+- name: extra_packages.yml - Install the packages
+  yum:
+      name:
+        - mailx
+        - mlocate
+        - epel-release
+        - deltarpm
+        - vim
+        - rsync
+        - yum-utils
+        - subscription-manager
+ 
+- name: extra_packages.yml - install php 7
+  command: yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm --nogpg
+
+- name: extra_packages.yml - enable php 7
+  command: yum-config-manager --enable remi-php74

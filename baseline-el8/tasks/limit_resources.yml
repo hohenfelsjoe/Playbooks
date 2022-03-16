@@ -1,0 +1,21 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel8
+
+---
+- name: limit_resources.yml - Set Tags
+  tags:
+  - limit_resources 
+  block:
+
+  - name: limit_resources.yml - Copy CRISP limits
+    copy:
+      src: ../files/el8/etc/security/limits.d/50-crisp.conf
+      dest: /etc/security/limits.d/50-crisp.conf
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644

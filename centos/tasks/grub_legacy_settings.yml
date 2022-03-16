@@ -1,0 +1,15 @@
+# Ansible Playbook 
+#
+# Enable Auditing for Processes Which Start Prior to the Audit Daemon and Disable Kernel Support for USB via Bootloader Configuration
+#
+# For:
+# - centos6
+
+---
+- name: grub_legacy_settings - Configure Running Kernel
+  command: /sbin/grubby --update-kernel=ALL --args="audit=1"  
+
+- name: grub_legacy_settings - Configure Running Kernel
+  command: /sbin/grubby --update-kernel=ALL --args="noipv6"
+ 
+

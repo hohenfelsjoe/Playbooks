@@ -1,0 +1,33 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel8
+
+---
+- name: postfix.yml - Set Tags
+  tags:
+  - postfix 
+  block:
+
+  - name: postfix.yml - latest postfix version installed
+    dnf:
+      name: postfix
+      state: present
+    ignore_errors: yes
+
+  - name: postfix.yml - Postfix Config Copied
+    copy:
+      src: ../files/el8/etc/postfix/main.cf
+      dest: /etc/postfix/main.cf
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: postfix.yml - Postfix enabled and running
+    service:
+      name: postfix
+      enabled: true
+      state: started

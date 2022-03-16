@@ -1,0 +1,58 @@
+---
+- name: sat_reg_baseline_7.yml - Install the packages
+  yum:
+      name:
+        - subscription-manager
+
+- name: sat_reg_baseline_7.yml - Disable RHN 
+  lineinfile:
+    path: /etc/yum/pluginconf.d/rhnplugin.conf
+    regexp: '^enabled = 1'
+    line: 'enabled = 0'
+  ignore_errors: yes
+
+- name: sat_reg_baseline_7.yml - Delete systemid
+  file: path=/etc/sysconfig/rhn/systemid
+    state=absent
+  ignore_errors: yes
+
+- name: sat_reg_baseline_7.yml - Add katello-agent repository
+  yum_repository:
+    name: katello-agent
+    description: Katello YUM repo
+    baseurl: http://fedorapeople.org/groups/katello/releases/yum/latest/client/el$releasever/$basearch/
+    gpgcheck: no  
+
+- name: sat_reg_baseline_7.yml - Get bootstrap
+  get_url:
+    url: http://172.16.4.78/pub/bootstrap.py
+    dest: /root
+    mode: '0755'
+
+- name: sat_reg_baseline_7.yml - Create File reg_base.sh
+  copy:
+    content: ""
+    dest: /root/reg_base.sh
+    owner: root
+    group: root
+    mode: 0755 
+
+- name: sat_reg_baseline_7.yml - Edit reg_base
+  blockinfile: 
+    path: /root/reg_base.sh
+    block: |
+      #! /bin/sh
+
+      mkdir /etc/yum.repos.d/old
+         
+      mv /etc/yum.repos.d/CentOS-* /etc/yum.repos.d/old/
+            
+      /root/bootstrap.py --login=satadmin --password=1qazxsw2 --server=hq8.hohenfels.com --organization="KJETT" --location="Lexington" --hostgroup "centos7_hg" --activationkey="centos7_ak" --skip puppet --force
+      
+      subscription-manager repos --enable KJETT_CentOS_7_Extras_x86_64  --enable KJETT_CentOS_7_OS_x86_64  --enable KJETT_CentOS_7_Updates_x86_64
+
+      yum -y install katello-agent
+
+
+#- name: sat_reg_baseline_7.yml - "Run Reg Script"
+#  shell: /root/reg_base.sh

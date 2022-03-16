@@ -1,0 +1,153 @@
+# Ansible Playbook 
+#
+# Set Password Quality Requirements with pam_pwquality
+
+---
+- name: passwd_setting - Set System Auth
+  copy: 
+    src: system-auth-rhel6
+    dest: /etc/pam.d/system-auth
+    owner: root
+    group: root
+    mode: 0644
+  when: rhel__os == "centos6"
+   
+  
+- block:
+  - name: passwd_setting - Set Password to Maximum of Three Consecutive Repeating Characters
+    lineinfile:
+      path: /etc/security/pwquality.conf
+      backrefs: yes
+      regexp: '^# maxrepeat = 0'
+      line: 'maxrepeat = 4'
+
+  - name: passwd_setting - Set Password Strength Minimum Digit Characters
+    lineinfile:
+      path: /etc/security/pwquality.conf
+      backrefs: yes
+      regexp: '^# dcredit = 1'
+      line: 'dcredit = -1'
+
+  - name: passwd_setting - Set Password Minimum Length
+    lineinfile:
+      path: /etc/security/pwquality.conf
+      backrefs: yes
+      regexp: '^# minlen = 9'
+      line: 'minlen = 12'
+
+  - name: passwd_setting - Set Password Strength Minimum Special Characters
+    lineinfile:
+      path: /etc/security/pwquality.conf
+      backrefs: yes
+      regexp: '^# ocredit = 1'
+      line: 'ocredit = -1'
+
+  - name: passwd_setting - Set Password Strength Minimum Lowercase Characters
+    lineinfile:
+      path: /etc/security/pwquality.conf
+      backrefs: yes
+      regexp: '^# lcredit = 1'
+      line: 'lcredit = -1'
+
+  - name: passwd_setting - Set Password Strength Minimum Different Characters
+    lineinfile:
+      path: /etc/security/pwquality.conf
+      backrefs: yes
+      regexp: '^# difok = 5'
+      line: 'difok = 5'
+
+  - name: passwd_setting - Set Password Strength Minimum Different Categories
+    lineinfile:
+      path: /etc/security/pwquality.conf
+      backrefs: yes
+      regexp: '^# minclass = 0'
+      line: 'minclass = 4'
+
+  - name: passwd_setting - Set Password to Maximum of Consecutive Repeating Characters from Same Character Class
+    lineinfile:
+      path: /etc/security/pwquality.conf
+      backrefs: yes
+      regexp: '^# maxclassrepeat = 0'
+      line: 'maxclassrepeat = 4'
+  
+  - name: passwd_setting - Set Password Strength Minimum Uppercase Characters
+    lineinfile:
+      path: /etc/security/pwquality.conf
+      backrefs: yes
+      regexp: '^# ucredit = 1'
+      line: 'ucredit = -1'
+  
+    when: rhel__os == "centos7"
+
+
+  - name: passwd_setting - accounts_minimum_age_login_defs
+    lineinfile:
+      path: /etc/login.defs
+      regexp: '^PASS_MIN_DAYS'
+      line: 'PASS_MIN_DAYS  1'
+  
+  - name: passwd_setting - accounts_maximum_age_login_defs
+    lineinfile:
+      path: /etc/login.defs
+      regexp: 'PASS_MAX_DAYS'
+      line: 'PASS_MAX_DAYS  60'
+  
+  - name: passwd_setting - Set Password Minimum Length in login.defs
+    lineinfile:
+      path: /etc/login.defs
+      regexp: '^PASS_MIN_LEN'
+      line: 'PASS_MIN_LEN    14'
+  
+  - name: passwd_setting - Ensure the Logon Failure Delay is Set Correctly in login.defs Comment
+    lineinfile:
+      path: /etc/login.defs
+      line: '#added by CRISP'
+  
+  - name: passwd_setting - Ensure the Logon Failure Delay is Set Correctly in login.defs
+    lineinfile:
+      path: /etc/login.defs
+      insertafter: '#added by CRISP'
+      line: 'FAIL_DELAY 15'
+  
+  - name: passwd_setting - accounts_passwords_pam_faillock_deny_system_auth
+    lineinfile:
+      path: /etc/pam.d/system-auth
+      insertbefore: 'auth        sufficient    pam_unix.so  try_first_pass'
+      line: 'auth        required      pam_faillock.so preauth silent deny=5 unlock_time=900 fail_interval=900'
+  
+  - name: passwd_setting
+    lineinfile:
+      path: /etc/pam.d/system-auth
+      insertafter: 'auth        sufficient    pam_unix.so  try_first_pass'
+      line: 'auth        [default=die] pam_faillock.so authfail deny=5 unlock_time=900 fail_interval=900'
+  
+  - name: passwd_setting
+    lineinfile:
+      path: /etc/pam.d/system-auth
+      insertbefore: 'account     required      pam_unix.so'
+      line: 'account     required      pam_faillock.so'
+  
+  - name: passwd_setting
+    lineinfile:
+      path: /etc/pam.d/system-auth
+      insertafter: 'password    requisite     pam_pwquality.so try_first_pass local_users_only retry=3 authtok_type='
+      line: 'password    requisite     pam_pwhistory.so existing_options remember=5'
+
+  - name: passwd_setting - accounts_passwords_pam_faillock_deny_passwd_auth
+    lineinfile:
+      path: /etc/pam.d/password-auth
+      insertbefore: 'auth        sufficient    pam_unix.so nullok try_first_pass'
+      line: 'auth        required      pam_faillock.so preauth silent deny=5 unlock_time=900 fail_interval=900'
+  
+  - name: passwd_setting
+    lineinfile:
+      path: /etc/pam.d/password-auth
+      insertafter: 'auth        sufficient    pam_unix.so nullok try_first_pass'
+      line: 'auth        [default=die] pam_faillock.so authfail deny=5 unlock_time=900 fail_interval=900'
+  
+  - name: passwd_setting
+    lineinfile:
+      path: /etc/pam.d/password-auth
+      insertbefore: 'account     required      pam_unix.so'
+      line: 'account     required      pam_faillock.so'
+

@@ -1,0 +1,221 @@
+# Ansible Playbook 
+#
+# Configure OpenSSH Server if Necessary
+
+---
+- name: ssh.yml - Set Tags
+  tags:
+  - ssh 
+  block:
+
+  - name: ssh.yml - latest sshd version installed
+    apt:
+      name: openssh-server
+      state: latest
+
+  - name: ssh.yml - Delete existing issue banner
+    file: path=/etc/issue
+      state=absent
+
+  - name: ssh.yml - Delete existing issue.net banner
+    file: path=/etc/issue.net
+      state=absent
+
+  - name: ssh.yml - Create File issue banner
+    blockinfile: 
+      path: /etc/issue.net
+      create: yes
+      backup: yes
+      marker: "{mark} Security Warning!"
+      owner: root
+      group: root
+      mode: 0644
+      content: |
+        KJETT systems are intended to be used by authorized KJETT network users for viewing and
+        retrieving information only except as otherwise explicitly authorized for official
+        business and limited personal use under KJETT policy.
+        
+        Information from this system resides on and transmits through computer systems and
+        networks funded by the KJETT.  All access or use constitutes understanding and acceptance
+        that there is no reasonable expectation of privacy in the use of Government networks
+        or systems.  All access or use of this system constitutes user understanding and
+        acceptance of these terms and constitutes unconditional consent to review and action
+        including (but not limited to) monitoring recording copying auditing inspecting
+        investigating restricting access blocking  tracking disclosing to authorized personnel
+        or any other authorized actions by all authorized KJETT and law enforcement personnel.
+        
+        Unauthorized user attempts or acts to 
+        (1) access upload download change or delete information on this system 
+        (2) modify this system  
+        (3) deny access to this system
+        (4) accrue resources for unauthorized use or 
+        (5) otherwise misuse this system are strictly prohibited. 
+        Such attempts or acts are subject to action that may result in
+        criminal civil or administrative penalties.
+        
+  - name: ssh.yml - create sym link
+    file:
+      src: /etc/issue.net
+      dest: /etc/issue
+      owner: root
+      group: root
+      state: link
+
+  - name: ssh.yml - Set ssh protocol to 2
+    lineinfile:
+      backup: yes
+      path: /etc/ssh/sshd_config
+      insertafter: "#ListenAddress ::"
+      line: 'Protocol 2'
+
+  - name: ssh.yml - Disable SSH Support for Rhosts RSA Authentication
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      insertafter: "Protocol 2"
+      line: 'RhostsRSAAuthentication no'
+
+  - name: ssh.yml - Disable root logon
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      backrefs: yes
+      regexp: '^#PermitRootLogin yes'
+      line: 'PermitRootLogin no'
+
+  - name: ssh.yml - Set logon banner
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      backrefs: yes
+      regexp: '^#Banner none'
+      line: 'Banner /etc/issue'
+
+  - name: ssh.yml - Print last logon
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      backrefs: yes
+      regexp: '^#PrintLastLog yes'
+      line: 'PrintLastLog yes'
+
+  - name: ssh.yml - Permit User Environment
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      backrefs: yes
+      regexp: '^#PermitUserEnvironment no'
+      line: 'PermitUserEnvironment no'
+
+  - name: ssh.yml - Disable GSSAPI Authentication
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      backrefs: yes
+      regexp: '^GSSAPIAuthentication yes'
+      line: 'GSSAPIAuthentication no'
+
+  - name: ssh.yml - Disable Kerberos Authentication
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      backrefs: yes
+      regexp: '^#KerberosAuthentication no'
+      line: 'KerberosAuthentication no' 
+
+  - name: ssh.yml - Enable Use of StictModes
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      backrefs: yes
+      regexp: '^#StrictModes yes'
+      line: 'StrictModes yes'
+
+  - name: ssh.yml - Disable Compression Or Set Compression to delayed
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      backrefs: yes
+      regexp: '^#Compression delayed'
+      line: 'Compression delayed'
+
+  - name: Set SSH Idle Timeout
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      backrefs: yes
+      regexp: '^#ClientAliveInterKJETTl 0'
+      line: 'ClientAliveInterKJETTl 900'
+  - name: Set SSH Client Alive Count
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      backrefs: yes
+      regexp: '^#ClientAliveCountMax 3'
+      line: 'ClientAliveCountMax 0'
+  - name: Disable SSH Access via Empty Passwords
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      backrefs: yes
+      regexp: '^#PermitEmptyPasswords no'
+      line: 'PermitEmptyPasswords no'
+  - name: Use Only Approved Ciphers Comment
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      insertafter: "#RekeyLimit default none"
+      line: '#Use only fips certified ciphers'
+  - name: Set logging to info
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      backrefs: yes
+      regexp: '^#LogLevel INFO'
+      line: 'LogLevel INFO'
+  - name: Use Only Approved Ciphers
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      insertafter: "#Use only fips certified ciphers"
+      line: 'Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc,aes192-cbc,aes256-cbc'
+  - name: Use Only FIPS Approved MACs Comment
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      insertafter: "Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc,aes192-cbc,aes256-cbc"
+      line: '#Disable MD5 MACs algorithms'
+  - name: Use Only FIPS Approved MACs
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      insertafter: "#Disable MD5 MACs algorithms"
+      line: 'MACs hmac-sha2-512,hmac-sha2-256,hmac-sha1'
+  - name: Enable Use of Privilege Separation Comment
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      insertafter: "MACs hmac-sha2-512,hmac-sha2-256,hmac-sha1"
+      line: '#Enable Use of Privilege Separation'
+  - name: Enable Use of Privilege Separation
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      insertafter: "#Enable Use of Privilege Separation"
+      line: 'UsePrivilegeSeparation yes'
+  - name: Display last login upon successful login
+    lineinfile:
+      path: /etc/pam.d/sshd
+      insertafter: "#%PAM-1.0"
+      line: 'session    required     pam_lastlog.so showfailed'
+  - name: Do not permit RSA Host Authentication
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      backrefs: yes
+      regexp: '^#IgnoreRhosts yes'
+      line: 'IgnoreRhosts yes'
+  - name: Do not permit Known Host Authentication
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      backrefs: yes
+      regexp: '^#IgnoreUserKnownHosts no'
+      line: 'IgnoreUserKnownHosts yes'
+  - name: Do not permit RSA Host Authentication
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      backrefs: yes
+      regexp: '^#RhostsRSAAuthentication no'
+      line: 'RhostsRSAAuthentication yes'
+  - name: Do not allow untrusted host SSH logon
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      backrefs: yes
+      regexp: '^#HostbasedAuthentication no'
+      line: 'HostbasedAuthentication no'
+      
+  - name: ssh.yml - SSH enabled and running
+    service:
+      name: ssh
+      enabled: true
+  #    state: started

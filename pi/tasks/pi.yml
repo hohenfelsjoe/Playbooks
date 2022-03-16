@@ -1,0 +1,22 @@
+---
+- include_tasks: ssh.yml
+  tags:
+    -ssh
+
+- include_tasks: snmp.yml
+  tags:
+    -snmp
+
+- include_tasks: apt_update.yml
+  tags:
+    -apt_update
+
+- include_tasks: erik.yml
+  tags:
+    -erik
+
+- include_tasks: share.yml
+  tags:
+    -share
+    -nfs
+

@@ -1,0 +1,22 @@
+# Ansible Playbook
+# Reviewed: 04/21/21
+# Enable Auditing for Processes Which Start Prior to the Audit Daemon and Disable Kernel Support for USB via Bootloader Configuration
+#
+# For:
+# - rhel7
+
+---
+- name: grub2_settings.yml - Setup audit
+  lineinfile:
+    state: present
+    dest: /etc/default/grub
+    backup: yes
+    backrefs: yes
+    regexp: '^(GRUB_CMDLINE_LINUX=(?!.*audit)\"[^\"]+)(\".*)'
+    line: '\1 audit=1\2'
+
+- name: grub2_settings.yml - Run grubby
+  command: /usr/sbin/grubby --grub2 --update-kernel=ALL --remove-args="rhgb" --remove-args="quiet" --args="audit=1" --args="elevator=noop" --args="fips=1"
+
+- name: grub2_settings.yml - Rebuild GRUB
+  command: /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg

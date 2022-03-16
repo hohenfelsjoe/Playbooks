@@ -1,0 +1,5 @@
+##Login Rules
+-w /var/log/tallylog -p wa -k logins
+-w /var/run/faillock/ -p wa -k logins
+-w /var/log/lastlog -p wa -k logins
+

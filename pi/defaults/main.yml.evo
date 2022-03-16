@@ -1,0 +1,3 @@
+---
+stig__auditd_enabled: false
+stig__auditd_immutable: false

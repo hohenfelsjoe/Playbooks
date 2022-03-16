@@ -1,0 +1,31 @@
+# Ansible Playbook
+# Reviewed: 05/21/21
+#
+# For:
+# - rhel8
+
+---
+- name: logwatch.yml - latest logwatch installed
+  yum:
+    name: logwatch
+    state: latest
+  
+- name: logwatch.yml - Set level to high
+  lineinfile:
+    backup: yes
+    path: /usr/share/logwatch/default.conf/logwatch.conf
+    regexp: '^Detail ='
+    line: 'Detail = High'
+  
+- name: logwatch.yml - Notify via email
+  lineinfile:
+    backup: yes
+    path: /usr/share/logwatch/default.conf/logwatch.conf
+    regexp: '^Output ='
+    line: 'Output = mail'
+  
+- name: logwatch.yml - Test Run
+  command: /usr/sbin/logwatch
+
+
+  

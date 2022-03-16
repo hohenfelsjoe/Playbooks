@@ -1,0 +1,39 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel8
+
+---
+- name: firewall-firewalld - Set Tags
+  tags:
+  - firewall-firewalld 
+  block:
+
+  - name: firewall-firewalld.yml - Latest firewall version installed
+    dnf:
+      name: firewalld
+      state: present
+    ignore_errors: yes
+
+  - name: firewall-firewalld.yml - Firewalld enabled and running
+    service:
+      name: firewalld
+      enabled: true
+      state: started
+
+  - name: firewall-firewalld.yml - Set Default firewalld Zone for Incoming Packets
+    copy:
+      src: ../files/el8/etc/firewalld/firewalld.conf
+      dest: /etc/firewalld/firewalld.conf
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: firewall-firewalld.yml - Set firewall rule to allow ssh
+    firewalld:
+      zone: public
+      service: ssh
+      permanent: true
+      state: enabled

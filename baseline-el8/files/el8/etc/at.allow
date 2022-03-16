@@ -1,0 +1,5 @@
+#Filename/Path: /etc/at.allow
+#ownership: root.root
+#file permissions: 644
+root
+

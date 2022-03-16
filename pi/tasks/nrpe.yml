@@ -1,0 +1,47 @@
+---
+#- name: NRPE installed
+#  hosts: pi
+#  become: yes
+#  tasks:
+  - name: nrpe.yml - latest nrpe installed
+    yum:
+      name: nagios-nrpe-server
+      state: latest
+
+  - name: nrpe.yml - latest nrpe plugins installed
+    yum:
+      name: monitoring-plugins
+      state: latest
+
+  - name: nrpe.yml - NRPE enabled and running
+    service:
+      name: nagios-nrpe-server.service
+      enabled: true
+      state: started
+
+  - name: nrpe.yml - copy nrpe.cfg
+    copy:
+      src: ~/bin/Ansible/AnsibleRoles/pi/files/nrpe.cfg
+      dest: /etc/nagios/nrpe.cfg
+      owner: root
+      group: root
+      mode: 0644
+    
+  - name: nrpe.yml - create index.html for nagios check
+    blockinfile: 
+      path: /var/www/html/index.html
+      create: yes
+      backup: yes
+      marker: "{mark} KJETT Test Page!"
+      owner: www-data
+      group: www-data
+      mode: 0644
+      content: |
+        Test page for nagios, safe to be replaced!
+
+  - name: nrpe.yml - reload_nrpe
+    service: 
+      name: nagios-nrpe-server.service
+      enabled: true
+      state: started
+      

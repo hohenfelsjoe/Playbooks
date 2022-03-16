@@ -1,0 +1,11 @@
+--- 
+- name: Register servers to Katello 
+  hosts: centos
+  roles: 
+    - sat_reg
+  pre_tasks: 
+    - name: "Pre ping test" 
+      ping: 
+  tasks: 
+    - name: "Post ping test" 
+      ping:

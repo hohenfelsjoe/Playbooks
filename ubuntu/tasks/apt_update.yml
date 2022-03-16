@@ -1,0 +1,10 @@
+# Ansible Playbook 
+#
+# Ensure Software Patches Installed
+#
+
+---
+- name: upgrade all packages
+  apt:
+    name: '*'
+    state: latest

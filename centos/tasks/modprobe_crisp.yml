@@ -1,0 +1,75 @@
+# Ansible Playbook 
+#
+# Disable Kernel Modules
+#
+# For:
+# - centos6
+# - centos7
+
+---
+- name: modprobe_crisp - Disable Kernel Module add kjett.conf
+  lineinfile: 
+    create: yes
+    state: present
+    path: /etc/modprobe.d/kjett.conf
+    line: install usb-storage /bin/true
+
+- name: modprobe_crisp - Disable Bluetooth Module
+  lineinfile:
+    path: /etc/modprobe.d/kjett.conf
+    line: install bluetooth /bin/true
+
+- name: modprobe_crisp - Disable Modprobe DCCP Support
+  lineinfile:
+    path: /etc/modprobe.d/kjett.conf
+    line: install dccp /bin/true
+
+- name: modprobe_crisp - Disable Modprobe SCTP Support
+  lineinfile:
+    path: /etc/modprobe.d/kjett.conf
+    line: install sctp /bin/true
+
+- name: modprobe_crisp - Disable Modprobe RDS Support
+  lineinfile:
+    path: /etc/modprobe.d/kjett.conf
+    line: install rds /bin/true
+
+- name: modprobe_crisp - Disable Modprobe TIPC Support
+  lineinfile:
+    path: /etc/modprobe.d/kjett.conf
+    line: install tipc /bin/true
+
+- name: modprobe_crisp - Disable cramfs module for loading
+  lineinfile:
+    path: /etc/modprobe.d/kjett.conf
+    line: install cramfs /bin/true
+
+- name: modprobe_crisp - Disable freevxfs module for loading
+  lineinfile:
+    path: /etc/modprobe.d/kjett.conf
+    line: install freevxfs /bin/true
+
+- name: modprobe_crisp - Disable jffs2 module for loading
+  lineinfile:
+    path: /etc/modprobe.d/kjett.conf
+    line: install jffs2 /bin/true
+
+- name: modprobe_crisp - Disable hfs module for loading
+  lineinfile:
+    path: /etc/modprobe.d/kjett.conf
+    line: install hfs /bin/true
+
+- name: modprobe_crisp - Disable hfsplus module for loading
+  lineinfile:
+    path: /etc/modprobe.d/kjett.conf
+    line: install hfsplus /bin/true
+
+- name: modprobe_crisp - Disable squashfs module for loading
+  lineinfile:
+    path: /etc/modprobe.d/kjett.conf
+    line: install squashfs /bin/true
+
+- name: modprobe_crisp - Disable udf module for loading
+  lineinfile:
+    path: /etc/modprobe.d/kjett.conf
+    line: install udf /bin/true

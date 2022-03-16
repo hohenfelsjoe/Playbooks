@@ -1,0 +1,22 @@
+# Ansible Playbook
+# Reviewed: 04/21/21
+---
+- name: disableNetManager.yml - Check if NetworkManager is present
+  command: "rpm -q NetworkManager"
+  args:
+    warn: False
+  register: nm
+  changed_when: False
+  failed_when: nm.rc >= 2
+
+- block:
+  - name: disableNetManager.yml - Stop if running
+    service:
+      name: NetworkManager
+      state: stopped
+
+  - name: disableNetManager.yml - Disable
+    service:
+      name: NetworkManager
+      enabled: no
+  when: nm.rc == 0

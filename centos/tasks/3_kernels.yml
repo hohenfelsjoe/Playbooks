@@ -1,0 +1,15 @@
+---
+- name: 3_kernels.yml - latest yum utils installed
+  yum:
+    name: yum-utils
+    state: latest
+
+#- name: 3_kernels.yml - Clean up current kernels
+#  command: /bin/package-cleanup --oldkernels --count=3
+  
+- name: 3_kernels.yml - Set Default number of kernels to 3
+  lineinfile:
+    path: /etc/yum.conf
+    regexp: '^installonly_limit='
+    line: 'installonly_limit=3'
+  

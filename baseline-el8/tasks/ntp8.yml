@@ -1,0 +1,34 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel8
+
+---
+- name: ntp8.yml - Set Tags
+  tags:
+  - ntp8 
+  block:
+
+  - name: ntp8.yml - latest ntpd/chrony version installed
+    dnf:
+      name: chrony
+      state: present
+    #ignore_errors: yes
+
+  - name: ntp8.yml - Copy chrony Config
+    copy:
+      src: ../files/el8/etc/chrony.conf
+      dest: /etc/chrony.conf
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: ntp8.yml - Enable chronyd
+    service:
+      name: chronyd
+      enabled: true
+      state: restarted
+    

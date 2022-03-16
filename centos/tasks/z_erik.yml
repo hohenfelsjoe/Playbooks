@@ -1,0 +1,62 @@
+# Ansible Playbook 
+# Erik van Oudheusden erik.vanoudheusden@va.gov - 19 Sep 2017
+#
+# Eriks Post install task and check
+
+---
+- name: Add erik to aliases
+  lineinfile:
+    path: /etc/aliases
+    insertafter: '#root:          marc'
+    line: 'root:           erik@hq6.hohenfels.com'
+
+- name: "New Aliases"
+  command: /usr/bin/newaliases
+
+- name: Create Download Directory
+  file: 
+    path: /home/erik/Downloads
+    state: directory
+    owner: erik
+    group: erik
+    mode: 0755
+
+- name: Create bin Directory
+  file: 
+    path: /home/erik/bin
+    state: directory
+    owner: erik
+    group: erik
+    mode: 0755
+
+- name: Delete existing vimrc
+  file: path=/home/erik/.vimrc
+    state=absent
+
+- name: copy vimrc
+  copy:
+    src: ../files/.vimrc
+    dest: /home/erik/
+    owner: erik
+    group: erik
+    mode: 0770
+  
+- name: Delete existing bashrc
+  file: path=/home/erik/.bashrc
+    state=absent
+
+- name: copy bashrc
+  copy:
+    src: ../files/.bashrc
+    dest: /home/erik/
+    owner: erik
+    group: erik
+    mode: 0770
+
+- name: copy morning.sh
+  copy:
+    src: ../files/centos-morning.sh
+    dest: /home/erik/bin/morning.sh
+    owner: erik
+    group: erik
+    mode: 0750

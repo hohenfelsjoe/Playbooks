@@ -1,0 +1,64 @@
+# Ansible Playbook 
+# Erik van Oudheusden erik.vanoudheusden@va.gov - 28 Sep 2017
+#
+# 6.14.24.2 Configure auditd Data Retention
+#
+# For:
+# - centos6
+# - centos7
+
+---
+- name: audit_d - Number of Logs retained
+  lineinfile:
+    path: /etc/audit/auditd.conf
+    backrefs: yes
+    regexp: '^num_logs ='
+    line: 'num_logs = 5'
+
+- name: audit_d - Audit Log size (mb)
+  lineinfile:
+    path: /etc/audit/auditd.conf
+    backrefs: yes
+    regexp: '^max_log_file ='
+    line: 'max_log_file = 6'
+
+- name: audit_d - Action upon reaching maximum log size
+  lineinfile:
+    path: /etc/audit/auditd.conf
+    regexp: '^max_log_file_action ='
+    line: 'max_log_file_action = ROTATE'
+
+- name: audit_d - Space Left
+  lineinfile:
+    path: /etc/audit/auditd.conf
+    backrefs: yes
+    regexp: '^space_left ='
+    line: 'space_left = 85'
+
+- name: audit_d - Action on Low Disk space
+  lineinfile:
+    path: /etc/audit/auditd.conf
+    backrefs: yes
+    regexp: '^space_left_action ='
+    line: 'space_left_action = EMAIL'
+
+- name: audit_d - Action on Admin Disk space
+  lineinfile:
+    path: /etc/audit/auditd.conf
+    backrefs: yes
+    regexp: '^admin_space_left_action ='
+    line: 'admin_space_left_action = SINGLE'
+
+- name: audit_d - synchronously write audit event data to disk
+  lineinfile:
+    path: /etc/audit/auditd.conf
+    backrefs: yes
+    regexp: '^flush ='
+    line: 'flush = data'
+
+- name: audit_d - Mail Action on low disk space
+  lineinfile:
+    path: /etc/audit/auditd.conf
+    backrefs: yes
+    regexp: '^action_mail_acct ='
+    line: 'action_mail_acct = root'

@@ -1,0 +1,50 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel8
+
+---
+- name: cron_settings.yml - Set Tags
+  tags:
+  - cron_settings
+  block:
+
+  - name: cron_settings.yml - latest crond version installed
+    yum:
+      name: cronie
+      state: present
+    ignore_errors: yes
+
+  - name: cron_settings.yml - crond enabled and running
+    service:
+      name: crond
+      enabled: true
+      state: started
+
+  - name: cron_settings.yml - Delete cron.deny
+    file: path=/etc/cron.deny
+      state=absent
+
+  - name: Delete cron.at
+    file: path=/etc/at.deny
+      state=absent
+
+  - name: cron_settings.yml - Copy cron.allow
+    copy:
+      src: ../files/el8/etc/cron.allow
+      dest: /etc/cron.allow
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: cron_settings.yml - Copy at.allow
+    copy:
+      src: ../files/el8/etc/at.allow
+      dest: /etc/at.allow
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644

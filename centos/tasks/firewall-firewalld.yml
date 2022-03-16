@@ -1,0 +1,31 @@
+# Ansible Playbook 
+#
+# Verify firewalld Enabled
+#
+# For:
+# - rhel7
+
+---
+- name: firewall-firewalld - Latest firewall version installed
+  yum:
+    name: firewalld
+    state: latest
+
+- name: firewall-firewalld - Firewalld enabled and running
+  service:
+    name: firewalld
+    enabled: true
+    state: started
+
+- name: firewall-firewalld - Set Default firewalld Zone for Incoming Packets
+  lineinfile:
+    path: /etc/firewalld/firewalld.conf
+    regexp: '^DefaultZone'
+    line: 'DefaultZone=public'
+
+- name: firewall-firewalld - Set firewall rule to allow ssh
+  firewalld:
+    zone: public
+    service: ssh
+    permanent: true
+    state: enabled

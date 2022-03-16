@@ -1,0 +1,41 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel8
+
+---
+- name: user_settings.yml - Set Tags
+  tags:
+  - user_settings 
+  block:
+
+  - name: user_settings.yml - Verify /etc/default/useradd INACTIVE
+    copy:
+      src: ../files/el8/etc/default/useradd
+      dest: /etc/default
+      backup: yes
+      owner: root
+      group: root
+      mode: 0600
+
+  - name: user_settings.yml - Chage root remember to 1
+    command: chage -m 1 root
+
+  - name: user_settings.yml - Set correct permissions to /etc/skel files
+    file:
+      path: /etc/skel
+      state: directory
+      recurse: yes
+      owner: root
+      group: root
+      mode: '640'
+
+  - name: user_settings.yml - Set correct permissions to /etc/skel Directory
+    file:
+      path: /etc/skel
+      state: directory
+      owner: root
+      group: root
+      mode: '755'

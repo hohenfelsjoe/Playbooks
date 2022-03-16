@@ -1,0 +1,9 @@
+---
+
+- import_tasks: ssh.yml
+- import_tasks: snmp.yml
+- import_tasks: apt_update.yml
+- import_tasks: erik.yml
+- import_tasks: lamp.yml
+- import_tasks: share.yml
+

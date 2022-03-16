@@ -1,0 +1,49 @@
+# Ansible Playbook
+# Reviewed: 04/21/21
+# For:
+# - rhel7
+
+---
+- name: venafi.yml - Import key
+  rpm_key:
+    state: present
+    key: http://oitphcmulrep6.r02.med.va.gov/pub/venafi/rpm-gpg-key-venafi.pub
+
+- name: venafi.yml - Install VA Certificate Package RHEL 7
+  yum:
+    name: http://oitphcmulrep6.r02.med.va.gov/repo/0/x86_64/VACerts/va-certs-1.0.0-3.noarch.rpm
+    state: present
+
+- name: venafi.yml - Install Venafi Package
+  yum:
+    name: http://oitphcmulrep6.r02.med.va.gov/pub/venafi/venafi-agent-20.2.0-linux-x86_64.rpm
+    state: present
+
+- name: venafi.yml - Get the Cert File
+  copy:
+    src: ../files/curl-ca-bundle.txt
+    dest: /var/opt/venafi/agent/data/curl-ca-bundle.crt
+    backup: yes
+    owner: root
+    group: root
+    mode: 0644
+
+- name: venafi.yml - venafi enabled and running
+  service:
+    name: vagent
+    enabled: true
+    state: started
+
+- name: venafi.yml - Setup venafi server
+  command: /opt/venafi/agent/bin/vagent -m server_url=https://vaww.certmgr.va.gov/vedclient
+
+- name: venafi.yml - Setup venafi thumbprint
+  command: /opt/venafi/agent/bin/vagent -m server_thumbprint=3868a2d3846485bf4c9c49e20c13c1a678d2c120742ff2688871d4dd44fddd3b,6b677831ac8c432acf8f46d08118c6850b476c30d2952ff4f2a8d26dded2fe0a,3477f51aa346f626e0f10af06c84ba22844a405ea92a447f5e9003b82521842a,ef2884ef06ae0c804796dc28eab985a547c3a52a9dcd04057b24fdb09c950f05,3b64d1b65ccdc0949dea1e7841ddb488994b993f948110d82deac051194e75f2,48c9f12cb597c8d183fa62d6db900ef80b4cef34cccc7255548e36f2f8296bc9,d84cdab7ccf865efbaed35f1d994fd3e0a8225a169c9a8b24d4bb502ea00f2a7,6cb6a55a98c79d614e9dfd99927863772d1696bb3dc889e51ae0fb4b000374dc,29f50db8811d2537747033cd7f5bee1bd3da6c8a350843eec4f669af49d514f7
+
+- name: venafi.yml - Setup venafi password
+  command: /opt/venafi/agent/bin/vagent -m registration_password='PK!Isfun2019'
+
+- name: venafi.yml - venafi enabled and running
+  service:
+    name: vagent
+    state: restarted
