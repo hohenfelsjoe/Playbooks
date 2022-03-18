@@ -26,13 +26,13 @@
         - nmap.x86_64
         - bash-completion.noarch
         - net-tools
-        - nc
+        - nmap-ncat
         - wget
         - yum-utils
         - audispd-plugins
         - audit
-        - dstat
-        - dracut-fips
+        - pcp-system-tools
+        - dracut
         - expect
         - kernel-doc
         - net-snmp
@@ -45,7 +45,6 @@
         - sysstat
         - system-storage-manager
         - tree
-        - vim
         - vim-enhanced
         - dhclient
         - rsyslog

@@ -28,47 +28,45 @@
       group: root
       mode: 0644
 
-  #- name: passwd_setting.yml - copy password-auth-va
-  #  copy:
-  #    src: ../files/el8/etc/pam.d/password-auth-va
-  #    dest: /etc/pam.d/password-auth-va
-  #    owner: root
-  #    group: root
+  - name: passwd_setting.yml - copy password-auth-va
+    copy:
+      src: ../files/el8/etc/pam.d/password-auth-va
+      dest: /etc/pam.d/password-auth-va
+      owner: root
+      group: root
 
-  #- name: passwd_setting.yml - Create sym link for password-auth
-  #  file:
-  #    src: /etc/pam.d/password-auth-va
-  #    dest: /etc/pam.d/password-auth
-  #    backup: yes
-  #    owner: root
-  #    group: root
-  #    state: link
-  #    force: yes
+  - name: passwd_setting.yml - Create sym link for password-auth
+    file:
+      src: /etc/pam.d/password-auth-va
+      dest: /etc/pam.d/password-auth
+      owner: root
+      group: root
+      state: link
+      force: yes
 
-  #- name: passwd_setting.yml - copy system-auth-va
-  #  copy:
-  #    src: ../files/el8/etc/pam.d/system-auth-va
-  #    dest: /etc/pam.d/system-auth-va
-  #    owner: root
-  #    group: root
-  #    backup: yes
-  #    force: yes
+  - name: passwd_setting.yml - copy system-auth-va
+    copy:
+      src: ../files/el8/etc/pam.d/system-auth-va
+      dest: /etc/pam.d/system-auth-va
+      owner: root
+      group: root
+      backup: yes
+      force: yes
 
-  #- name: passwd_setting.yml - Create sym link for password-auth
-  #  file:
-  #    src: /etc/pam.d/system-auth-va
-  #    dest: /etc/pam.d/system-auth
-  #    backup: yes
-  #    owner: root
-  #    group: root
-  #    state: link
-  #    force: yes
+  - name: passwd_setting.yml - Create sym link for password-auth
+    file:
+      src: /etc/pam.d/system-auth-va
+      dest: /etc/pam.d/system-auth
+      owner: root
+      group: root
+      state: link
+      force: yes
 
-  #- name: passwd_setting.yml - Copy faillock.conf
-  #  copy:
-  #    src: ../files/el8/etc/security/faillock.conf
-  #    dest: /etc/security/faillock.conf
-  #    backup: yes
-  #    owner: root
-  #    group: root
-  #    mode: 0644
+  - name: passwd_setting.yml - Copy faillock.conf
+    copy:
+      src: ../files/el8/etc/security/faillock.conf
+      dest: /etc/security/faillock.conf
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644
