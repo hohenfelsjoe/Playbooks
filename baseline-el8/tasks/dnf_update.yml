@@ -62,6 +62,7 @@
         - opensc
         - esc
         - lshw
+        - mailx
       state: present
       disable_gpg_check: yes
     #ignore_errors: yes
