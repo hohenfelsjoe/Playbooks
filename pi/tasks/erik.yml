@@ -6,13 +6,13 @@
 
   - name: erik.yml - Copy bashrc
     copy:
-      src: /home/erik/.bashrc
+      src: ../files/pi/bashrc
       dest: /home/erik/.bashrc
       owner: erik
       group: erik
       mode: 0644
 
-  - name: erik.yml - Install Erik's the packages
+  - name: erik.yml - Install Erik's Cool packages
     apt:
       name:
         - vim
@@ -27,7 +27,7 @@
       
   - name: erik.yml - Copy vimrc
     copy:
-      src: /home/erik/.vimrc
+      src: ../files/pi/vimrc
       dest: /home/erik/.vimrc
       owner: erik
       group: erik
@@ -43,7 +43,7 @@
       
   - name: erik.yml - Copy morning script
     copy:
-      src: /home/erik/bin/morning.sh
+      src: ../files/pi/morning.sh
       dest: /home/erik/bin/morning.sh
       owner: erik
       group: erik

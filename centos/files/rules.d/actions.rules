@@ -1,4 +1,0 @@
-#Action rules
--w /etc/sudoers -p wa -k actions
--w /etc/sudoers.d –p wa –k actions
-
