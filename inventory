@@ -1,8 +1,8 @@
 [baseline]
-tower
+Server03
 
 [ubuntu]
-hq6
+Server02
 
 [pi]
-bench
+Server01
