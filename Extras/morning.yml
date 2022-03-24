@@ -1,0 +1,11 @@
+---
+- name: Morning Checks and Update
+  hosts: all
+  tags:
+  - Morning 
+  block:
+  tasks:
+
+    - name: morning.yml - run the morning script
+      command: ~/bin/morning.sh
+      

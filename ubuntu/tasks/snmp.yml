@@ -26,7 +26,7 @@
       path: /etc/snmp/snmpd.conf
       create: yes
       backup: yes
-      marker: "## {mark} Added For KJETT Security"
+      marker: "## {mark} Added For Hohenfelsjoe Security"
       owner: root
       group: root
       mode: 0644
@@ -34,18 +34,18 @@
         ###############################################################################
         #
         # snmpd.conf:
-        #   KJETT SNMP Configuration.
+        #   Hohenfelsjoe SNMP Configuration.
         #
         ###############################################################################
         agentaddress udp:161
         #       sec.name            source          community
          
-        com2sec Hohenfels_Network   192.168.1.0/24      LAN
-        com2sec Hohenfels_Network   172.16.4.0/24       DMZ
+        com2sec Internal_Network   192.168.1.0/24      LAN
+        com2sec Internal_Network   172.16.4.0/24       DMZ
         com2sec local               localhost           Local
          
         #       groupName       securityModel   securityName
-        group   ReadOnlyGroup    v2c            Hohenfels_Network
+        group   ReadOnlyGroup    v2c            InternalNetwork
         group   ReadOnlyGroup    v2c            local
          
          
@@ -59,8 +59,8 @@
         access  ReadOnlyGroup    ""      any       noauth    exact  systemview   none    none
          
         #               System information
-        syslocation     Lexington, TX
-        syscontact      erik@hq6.hohenfels.com
+        syslocation     NoneYa
+        syscontact      root@localhost
         
         #This line allows Observium to detect the host OS if the distro script is installed
         extend .1.3.6.1.4.1.2021.7890.1 distro /usr/bin/distro
