@@ -1,7 +1,7 @@
 ---
   - name: Copy bashrc
     copy:
-      src: /home/erik/.bashrc
+      src: ../files/bashrc
       dest: /home/erik/.bashrc
       owner: erik
       group: erik
@@ -15,7 +15,7 @@
       - rkhunter
   - name: Copy vimrc
     copy:
-      src: /home/erik/.vimrc
+      src: ../files/vimrc
       dest: /home/erik/.vimrc
       owner: erik
       group: erik
@@ -29,7 +29,7 @@
       mode: 0755
   - name: Copy morning script
     copy:
-      src: /home/erik/bin/morning.sh
+      src: ../files/morning.sh
       dest: /home/erik/bin/morning.sh
       owner: erik
       group: erik

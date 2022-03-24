@@ -6,7 +6,7 @@
 
   - name: erik.yml - Copy bashrc
     copy:
-      src: ../files/pi/bashrc
+      src: ../files/bashrc
       dest: /home/erik/.bashrc
       owner: erik
       group: erik
@@ -27,7 +27,7 @@
       
   - name: erik.yml - Copy vimrc
     copy:
-      src: ../files/pi/vimrc
+      src: ../files/vimrc
       dest: /home/erik/.vimrc
       owner: erik
       group: erik
@@ -43,7 +43,7 @@
       
   - name: erik.yml - Copy morning script
     copy:
-      src: ../files/pi/morning.sh
+      src: ../files/morning.sh
       dest: /home/erik/bin/morning.sh
       owner: erik
       group: erik
