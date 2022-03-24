@@ -4,5 +4,5 @@
   tasks:
 
     - name: morning.yml - run the morning script
-      command: ~/bin/morning.sh
+      command: /home/erik/bin/morning.sh
       

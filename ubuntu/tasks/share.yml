@@ -14,7 +14,7 @@
 - name: nfs.yml - Get Secret
   copy:
       src: ~/.smbcredentials
-      dest: ~/.smbcredentials
+      dest: /home/erik/.smbcredentials
       owner: erik
       group: erik
       mode: 0600
