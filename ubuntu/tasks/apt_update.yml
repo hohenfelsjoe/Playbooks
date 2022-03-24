@@ -4,7 +4,12 @@
 #
 
 ---
-- name: upgrade all packages
-  apt:
-    name: '*'
-    state: latest
+- name: apt_update.yml - Set Tags
+  tags:
+  - apt_update 
+  block:
+
+  - name: upgrade all packages
+    apt:
+      name: '*'
+      state: latest

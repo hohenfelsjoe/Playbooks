@@ -1,0 +1,14 @@
+
+---
+- name: dnf_update.yml - Set Tags
+  tags:
+  - dnf_update 
+  block:
+
+  - name: dnf_update.yml - upgrade all packages
+    dnf:
+      name: '*'
+      state: latest
+    #ignore_errors: yes
+
+    

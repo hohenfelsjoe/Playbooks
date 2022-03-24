@@ -1,6 +1,6 @@
 # Ansible Playbook 
 #
-# Install Lamp
+# Install Lamp EL8
 
 ---
 - name: Install LAMP
