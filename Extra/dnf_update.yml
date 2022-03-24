@@ -1,9 +1,11 @@
 
 ---
 - name: dnf_update.yml - Set Tags
+  hosts: all
   tags:
   - dnf_update 
   block:
+  tasks:
 
   - name: dnf_update.yml - upgrade all packages
     dnf:
