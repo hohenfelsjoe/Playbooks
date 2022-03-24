@@ -1,0 +1,18 @@
+# Ansible Playbook 
+#
+# Ensure Software Patches Installed
+#
+
+---
+- name: apt_update.yml - Set Tags
+  hosts: all
+  tags:
+  - apt
+  - update
+  block:
+  tasks:
+
+  - name: apt_update.yml - upgrade all packages
+    apt:
+      name: '*'
+      state: latest

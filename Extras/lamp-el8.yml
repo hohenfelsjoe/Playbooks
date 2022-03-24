@@ -5,6 +5,9 @@
 ---
 - name: Install LAMP
   hosts: all
+  tags:
+  - lamp-el8 
+  block:
   tasks:
 
   - name: Install EPEL
