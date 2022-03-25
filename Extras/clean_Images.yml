@@ -1,0 +1,10 @@
+# Ansible Playbook 
+#
+---
+- name: Clean Images Directory
+  hosts: all
+  tasks:
+
+    - name: clean_Images.yml - remove exif data
+      command: exiftool -progress -r -overwrite_original -all= -copyright="NONEYA LLC" /mnt/share/Tmp
+      
