@@ -6,5 +6,5 @@
   tasks:
 
     - name: clean_Images.yml - remove exif data
-      command: exiftool -progress -r -overwrite_original -all= -copyright="NONEYA LLC" /mnt/share/Tmp
+      command: exiftool -progress -r -overwrite_original -all= -copyright="NONEYA LLC" /mnt/share/Tmp/Clean
       
