@@ -81,7 +81,7 @@
       path: /var/www/html/test.php
       create: yes
       backup: yes
-      marker: "{mark} Test Page!"
+      marker: "{mark} PHP Test Page!"
       owner: apache
       group: apache
       mode: 0644
