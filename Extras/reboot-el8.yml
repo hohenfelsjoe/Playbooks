@@ -1,0 +1,18 @@
+
+---
+- name: Check if reboot needed
+  hosts: all
+  tasks:
+ 
+    - name: check to see if we need a reboot
+      command: needs-restarting -r
+      register: result
+      #ignore_errors: yes
+  
+    - name: display result
+      debug:
+        var: result.rc
+  
+    - name: Reboot if required
+      reboot:
+      when: result.rc == 1
