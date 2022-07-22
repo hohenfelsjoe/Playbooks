@@ -1,0 +1,31 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel9
+
+---
+- name: dns_update.yml - Set Tags
+  tags:
+  - dns_update 
+  block:
+
+  - name: dns_update.yml - Create rdp_nsupdate
+    copy:
+      src: ../files/el9/rdp_nsupdate
+      dest: /etc/cron.daily/rdp_nsupdate
+      owner: root
+      group: root
+      mode: 0755
+
+  - name: dns_update.yml - latest bind-utils version installed
+    dnf:
+      name: bind-utils
+      state: present
+
+  - name: dns_update.yml - Run It!
+    shell: /etc/cron.daily/rdp_nsupdate
+    args:
+      warn: False
+    changed_when: False

@@ -1,0 +1,137 @@
+# Reviewed: 07/17/22
+# added tags 01/07/22
+
+---
+
+- set_fact:
+    rhel__os: "rhel9"
+
+- include_tasks: gpg_check_enabled_dnf.yml
+  tags:
+    - gpg_check
+
+- include_tasks: gpg_installed.yml
+  tags:
+    - gpg_installed 
+
+- include_tasks: install_AIDE.yml
+  tags: 
+    - aide 
+    - AIDE
+
+- include_tasks: snmp.yml
+  tags:
+    - snmp
+    - snmp_update
+
+- include_tasks: ssh.yml
+  tags:
+    - ssh 
+
+- include_tasks: dnf_update.yml
+  tags: 
+    - dnf 
+    - updates
+
+- include_tasks: disable_ctrl-alt-del.yml
+  tags: 
+    - disable_ctrl-alt-del
+
+- include_tasks: disable_interactive_startup.yml
+  tags: 
+    - disable_interactive_startup
+
+- include_tasks: modprobe_crisp.yml
+  tags: 
+    - modprobe_crisp
+
+- include_tasks: user_settings.yml
+  tags: 
+    - user_settings
+
+- include_tasks: firewall-firewalld.yml
+  tags: 
+    - firewall-firewalld
+
+- include_tasks: verify_permissions_with_rpm.yml
+  tags: 
+    - verify_permissions_with_rpm
+
+- include_tasks: verify_hashes_with_RPM.yml
+  tags: 
+    - verify_hashes_with_RPM
+
+- include_tasks: disable_kdump.yml
+  tags: 
+    - disable_kdump
+
+- include_tasks: limit_resources.yml
+  tags: 
+    - limit_resources
+
+- include_tasks: grub2_settings.yml
+  tags: 
+    - grub2_settings
+
+- include_tasks: timeout.yml
+  tags: 
+    - timeout
+
+- include_tasks: cron_settings.yml
+  tags: 
+    - cron_settings
+
+- include_tasks: bashrc.yml
+  tags: 
+    - bashrc
+- include_tasks: logging.yml
+  tags: 
+    - logging
+
+- include_tasks: ntp9.yml
+  tags: 
+    - ntp8
+
+- include_tasks: disable_ipv6_zeroconf.yml
+  tags: 
+    - disable_ipv6_zeroconf
+
+- include_tasks: postfix.yml
+  tags: 
+    - postfix
+
+- include_tasks: audit_rules_el9.yml
+  tags: 
+    - audit_rules 
+
+- include_tasks: audit_d.yml
+  tags: 
+    - audit_d 
+    
+#- include_tasks: fips_crypto.yml
+#  tags: 
+#    - fips_crypto
+
+- include_tasks: screen_lock9.yml
+  tags: 
+    - screen_lock9
+
+- include_tasks: kernel9.yml
+  tags: 
+    - kernel9
+
+- include_tasks: fstab_settings.yml
+  tags: 
+    - fstab_settings
+
+- include_tasks: passwd_setting.yml
+  tags: 
+    - passwd_setting
+
+- include_tasks: share.yml
+  tags:
+    - share
+
+- include_tasks: z_erik.yml
+  tags: 
+    - erik

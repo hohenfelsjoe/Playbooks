@@ -1,0 +1,90 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel9
+
+---
+- name: ssh.yml - Set Tags
+  tags:
+  - ssh 
+  block:
+
+  - name: ssh.yml - latest sshd version installed
+    dnf:
+      name: openssh-server
+      state: present
+    ignore_errors: yes
+
+  - name: ssh.yml - Set issue.net banner
+    copy:
+      src: ../files/el9/etc/issue
+      dest: /etc/issue
+      backup: yes
+      owner: root
+      group: root
+      force: yes
+
+  - name: ssh.yml - Remove current issue.net
+    file: 
+      path: /etc/issue.net
+      state: absent
+
+  - name: ssh.yml - Link issue.net to issue
+    file:
+      src: /etc/issue
+      dest: /etc/issue.net
+      state: link
+
+  - name: ssh.yml - Copy SSH Config
+    copy:
+      src: ../files/el9/etc/ssh/sshd_config
+      dest: /etc/ssh/sshd_config
+      backup: yes
+      owner: root
+      group: root
+      mode: 0600
+      force: yes
+
+  - name: ssh.yml - Copy sshd to sysconfig
+    copy:
+      src: ../files/el9/etc/sysconfig/sshd
+      dest: /etc/sysconfig/
+      backup: yes
+      owner: root
+      group: root
+      mode: 0640
+      force: yes
+
+  - name: ssh.yml - Copy 02-rekey-limit.conf
+    copy:
+      src: ../files/el9/etc/ssh/ssh_config.d/02-rekey-limit.conf
+      dest: /etc/ssh/ssh_config.d/
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644
+      force: yes
+
+  - name: ssh.yml - Find files
+    find:
+      paths: /etc/ssh/
+      patterns: "ssh_host*key"
+    register: ssh_files_to_change
+
+  - name: ssh.yml - Modify the file permissions
+    file:
+      path: "{{ item.path }}"
+      owner: root
+      group: root
+      mode: '0600'
+    with_items: "{{ ssh_files_to_change.files }}"
+
+  - name: ssh.yml - SSH enabled and running
+    service:
+      name: sshd
+      enabled: true
+      state: started
+    ignore_errors: yes
+    

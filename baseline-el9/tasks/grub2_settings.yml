@@ -1,0 +1,27 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel9
+
+---
+- name: grub2_settings.yml - Set Tags
+  tags:
+  - grub2_settings 
+  block:
+
+  - name: grub2_settings.yml - Setup audit
+    lineinfile:
+      state: present
+      dest: /etc/default/grub
+      backup: yes
+      backrefs: yes
+      regexp: '^(GRUB_CMDLINE_LINUX=(?!.*audit)\"[^\"]+)(\".*)'
+      line: '\1 audit=1\2'
+
+  - name: grub2_settings.yml - Run grubby
+    command: /usr/sbin/grubby --grub2 --update-kernel=ALL --remove-args="quiet" --remove-args="rhgb" --args="audit=1" --args="audit_backlog_limit=8192" --args="page_poison=1" --args="slub_debug=P" --args="pti=on"
+
+  - name: grub2_settings.yml - Rebuild GRUB
+    command: /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg

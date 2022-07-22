@@ -1,0 +1,28 @@
+[Unit]
+Description=Splunk Forwarder Enterprise ##${splunkverson}
+After=network.target
+Wants=network.target
+
+[Service]
+Type=forking
+RemainAfterExit=False
+User=splunk
+Group=splunk
+Restart=always
+LimitNOFILE=102400
+SuccessExitStatus=51 52
+RestartPreventExitStatus=51
+RestartForceExitStatus=52
+Delegate=true
+CPUShares=1024
+MemoryLimit=3917762560
+#ExecStart=/opt/splunkforwarder/bin/splunk _internal_launch_under_systemd
+ExecStart=/opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --no-prompt
+ExecStop=/opt/splunkforwarder/bin/splunk stop
+#PIDFile=/opt/splunkforwarder/var/run/splunk/splunkd.pid
+
+[Install]
+WantedBy=multi-user.target
+# If you want to use \$(systemctl [start|stop|restart] splunkforwarder) instead of splunkd
+#Alias=splunkforwarder.service
+

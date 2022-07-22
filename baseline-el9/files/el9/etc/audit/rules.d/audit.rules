@@ -1,0 +1,10 @@
+# This file contains the auditctl rules that are loaded
+-a always,exit -F arch=b32 -S execve -C uid!=euid -F euid=0 -k execpriv 
+-a always,exit -F arch=b64 -S execve -C uid!=euid -F euid=0 -k execpriv
+ 
+-a always,exit -F arch=b32 -S execve -C gid!=egid -F egid=0 -k execpriv 
+-a always,exit -F arch=b64 -S execve -C gid!=egid -F egid=0 -k execpriv 
+
+-e 2
+--loginuid-immutable
+

@@ -1,0 +1,36 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel9
+
+---
+- name: postfix.yml - Set Tags
+  tags:
+  - postfix 
+  block:
+
+  - name: postfix.yml - latest postfix version installed
+    dnf:
+      name: postfix
+      state: present
+    ignore_errors: yes
+
+  - name: postfix.yml - Postfix Config Copied
+    copy:
+      src: ../files/el9/etc/postfix/main.cf
+      dest: /etc/postfix/main.cf
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: postfix.yml - Postfix enabled and running
+    service:
+      name: postfix
+      enabled: true
+      state: started
+
+  - name: postfix.yml - Run the AIDE finish script
+    command: /usr/local/bin/aide.sh 

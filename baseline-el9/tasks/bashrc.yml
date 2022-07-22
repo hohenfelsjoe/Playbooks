@@ -1,0 +1,20 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel9
+
+---
+- name: bachrc.yml - Set Tags
+  tags:
+  - bachrc 
+  block:
+  
+  - name: bachrc.yml - CRISP bashrc settings
+    copy:
+      src: ../files/el9/etc/bashrc
+      dest: /etc/bashrc
+      owner: root
+      group: root
+      mode: 0644

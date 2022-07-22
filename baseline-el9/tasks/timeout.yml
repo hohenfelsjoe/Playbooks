@@ -1,0 +1,21 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel9
+
+---
+- name: timeout.yml - Set Tags
+  tags:
+  - timeout 
+  block:
+
+  - name: timeout.yml - Create tmux.conf
+    copy:
+      src: ../files/el9/etc/tmux.conf
+      dest: /etc/
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644

@@ -1,0 +1,28 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel9
+
+---
+- name: audit_rules_el9.yml - Set Tags
+  tags:
+  - audit_rules
+  block:
+  
+  - name: audit_rules_el9.yml - Copy access.rules
+    copy:
+      src: ../files/el9/etc/audit/rules.d/
+      dest: /etc/audit/rules.d/
+      owner: root
+      group: root
+      mode: 0600
+
+  - name: audit_rules_el9.yml - Configure auditd to use audispd's syslog plugin
+    copy:
+      src: ../files/el9/etc/audit/plugins.d/syslog.conf
+      dest: /etc/audit/plugins.d/syslog.conf
+      owner: root
+      group: root
+      mode: 0640

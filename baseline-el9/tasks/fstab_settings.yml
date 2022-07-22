@@ -1,0 +1,28 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel9
+
+---
+- name: fstab_settings.yml - Set Tags
+  tags:
+  - fstab_settings 
+  block:
+
+  - name: fstab_settings.yml - modify fstab bind tmp
+    mount:
+      path: /tmp
+      src: /var/tmp
+      fstype: none
+      opts: bind,noatime,nodev,noexec,nosuid
+      state: present
+
+  - name: fstab_settings.yml - modify fstab bind tmp
+    mount:
+      path: /dev/shm
+      src: tmpfs
+      fstype: tmpfs
+      opts: defaults,nosuid,nodev,noexec
+      state: present

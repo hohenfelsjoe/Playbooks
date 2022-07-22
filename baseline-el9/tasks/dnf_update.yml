@@ -1,0 +1,98 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel9
+
+---
+- name: dnf_update.yml - Set Tags
+  tags:
+  - dnf_update 
+  block:
+  
+  - name: dnf_update.yml - Install epel 9
+    command: subscription-manager repos --enable codeready-builder-for-rhel-9-x86_64-rpms 
+
+  - name: dnf_update.yml - Install epel 9
+    dnf: 
+      name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+      state: present
+      disable_gpg_check: yes
+
+  - name: dnf_update.yml - Install the STIG packages
+    dnf:
+      name:
+        - tmux
+        - psmisc
+        - nmap-ncat.x86_64
+        - nmap.x86_64
+        - bash-completion.noarch
+        - net-tools
+        - nmap-ncat
+        - wget
+        - yum-utils
+        - audispd-plugins
+        - audit
+        - pcp-system-tools
+        - dracut
+        - expect
+        - kernel-doc
+        - net-snmp
+        - net-snmp-utils
+        - mlocate
+        - openscap
+        - open-vm-tools
+        - rsyslog
+        - scap-security-guide
+        - sysstat
+        #- system-storage-manager
+        - tree
+        - vim-enhanced
+        - dhclient
+        - rsyslog
+        - sos
+        - lsof
+        - strace
+        - tcpdump
+        - bind-utils
+        - dnf-automatic
+        - rsyslog-gnutls
+        - libcap-ng-utils
+        - policycoreutils-python-utils
+        - usbguard
+        - rng-tools
+        - opensc
+        - esc
+        - lshw
+        - s-nail
+        - htop
+      state: present
+      disable_gpg_check: yes
+    #ignore_errors: yes
+
+  - name: dnf_update.yml - remove packages (RHEL 8)
+    dnf:
+      name: 
+        - pigz
+        - iprutils
+        - tuned
+        - gssproxy
+      state: removed
+      disable_gpg_check: yes
+    #ignore_errors: yes
+    
+  - name: dnf_update.yml - upgrade all packages
+    dnf:
+      name: '*'
+      state: latest
+      disable_gpg_check: yes
+    #ignore_errors: yes
+
+  - name: dnf_update.yml - Enable dnf-automatic Timer
+    service:
+      name: dnf-automatic.timer
+      enabled: true
+      state: started
+  
+  

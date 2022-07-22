@@ -1,0 +1,21 @@
+# Ansible Playbook
+# Reviewed: 01/07/22
+# added tags 01/07/22
+#
+# For:
+# - rhel9
+
+---
+- name: screen_lock8.yml - Set Tags
+  tags:
+  - screen_lock8 
+  block:
+
+  - name: screen_lock8.yml - Prevent user from disabling the screen lock
+    copy:
+      src: ../files/el9/etc/shells
+      dest: /etc/
+      backup: yes
+      owner: root
+      group: root
+      mode: 0644

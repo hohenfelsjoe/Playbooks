@@ -1,0 +1,42 @@
+---
+- name: share.yml - Set Tags
+  tags:
+  - share
+  block:
+
+  - name: share.yml - latest cifs version installed
+    yum:
+      name: cifs-utils
+      state: latest
+    
+  - name: share.yml - make mount point
+    file:
+      path: /mnt/share
+      state: directory
+
+  - name: share.yml - Set firewall rule to allow nfs  
+    firewalld:
+      zone: public
+      service: samba
+      permanent: true
+      state: enabled
+
+  - name: share.yml - Reload Firewall
+    service: name=firewalld state=restarted
+
+  - name: share.yml - Get Secret
+    copy:
+      src: ../files/smbcredentials
+      dest: /home/erik/.smbcredentials
+      owner: erik
+      group: erik
+      mode: 0600
+
+  - name: share.yml - mount cifs
+    mount:
+      path: /mnt/share
+      src: //172.16.4.76/NAS
+      fstype: cifs
+      opts: "credentials=/home/erik/.smbcredentials,uid=erik,gid=erik"
+      state: present
+
