@@ -1,1 +1,0 @@
-set -r autologout 15

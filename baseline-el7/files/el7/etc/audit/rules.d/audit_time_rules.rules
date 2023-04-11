@@ -1,5 +1,0 @@
-##Time Rules
--a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k audit_time_rules
--a always,exit -F arch=b64 -S adjtimex -S settimeofday -k audit_time_rules
--w /etc/localtime -p wa -k audit_time_rules
-

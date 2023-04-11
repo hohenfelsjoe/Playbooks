@@ -1,4 +1,0 @@
-#
--a always,exit -F arch=b32 -S delete_module -F key=modules
--a always,exit -F arch=b64 -S delete_module -F key=modules
-#

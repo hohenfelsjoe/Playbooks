@@ -1,4 +1,0 @@
-#/etc/cron.d/aide-check
-#Check database of 0515 each day
-# modified by:Ansible
-15 4 * * * /usr/sbin/aide --check | /bin/mail -s "$HOSTNAME - Daily aide integrity check run" root@localhost

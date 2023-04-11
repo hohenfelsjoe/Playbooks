@@ -1,5 +1,0 @@
----
-- name: "Run RedHat Enterprise Linux 7 tasks"
-  import_tasks: rhel7.yml
-  when: ansible_distribution == "RedHat"
-        and ansible_distribution_major_version == "7"
