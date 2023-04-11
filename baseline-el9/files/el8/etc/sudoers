@@ -110,7 +110,7 @@ root    ALL=(ALL)       ALL
 ## Allows members of the users group to shutdown this system
 # %users  localhost=/sbin/shutdown -h now
 
-#Added by VA CRISP
+#STIG
 Defaults logfile=/var/log/sudo.log,loglinelen=0
 Defaults !targetpw
 Defaults !rootpw

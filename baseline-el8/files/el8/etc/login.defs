@@ -72,9 +72,9 @@ USERGROUPS_ENAB yes
 # Use SHA512 to encrypt password.
 ENCRYPT_METHOD SHA512
 
-# CRISP enforce a delay of at least between logon prompts
+# Enforce a delay of at least between logon prompts
 FAIL_DELAY 4
 
-# CRISP 60 day lifetime
+# 60 day lifetime
 PASS_MAX_DAYS 60
 
