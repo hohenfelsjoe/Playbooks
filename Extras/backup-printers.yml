@@ -1,0 +1,10 @@
+# Ansible Playbook 
+#
+---
+- name: Backup Printers
+  hosts: all
+  tasks:
+
+    - name: backup-printers.yml - Backup 3D Printers
+      command: /home/erik/bin/octopi-backup.sh > /dev/null 2>&1
+      ignore_errors: yes

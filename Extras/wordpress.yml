@@ -1,0 +1,110 @@
+# Ansible Playbook 
+#
+# Install wordpress EL9
+
+---
+- name: Install Wordpress
+  hosts: all
+  tasks:
+
+  - name: Install Dev tools
+    dnf:
+      name: '@Development tools'
+
+  - name: Get the latest wordpress
+    get_url:
+      url: https://wordpress.org/latest.tar.gz
+      dest: /root
+
+  - name: Untar it 
+    unarchive: 
+      src: /root/wordpress-6.0.1.tar.gz
+      dest: /root
+      remote_src: yes  
+
+  - name: Create hohenfels directory
+    file:
+      path: /var/www/html/hohenfels
+      state: directory
+      mode: '0755'
+      owner: apache
+      group: apache
+
+  - name: Create viking directory
+    file:
+      path: /var/www/html/viking
+      state: directory
+      mode: '0755'
+      owner: apache
+      group: apache
+
+  - name: copy files to hohenfels
+    shell: "cp -R /root/wordpress/* /var/www/html/hohenfels"
+
+  - name: copy files to viking
+    shell: "mv /root/wordpress/* /var/www/html/viking"
+
+  - name: Set the owner
+    shell: "chown -Rf apache:apache /var/www/html/"
+
+  - name: Ser the permissions
+    shell: "chmod -Rf 750 /var/www/html/"
+
+  - name: Copy SELinux Script
+    copy:
+      src: ../files/selinux.sh
+      dest: /root/selinux.sh 
+      owner: root
+      group: root
+      mode: 0750
+
+  - name: Run SELinx script
+    command: /root/selinux.sh
+  
+  - name: Copy db.sql
+    copy:
+      src: ../files/db.sql
+      dest: /root/db.sql 
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: Create Databases
+    mysql_db:
+      login_user: root
+      login_password: Dkt8jzsf#
+      name:
+        - hohenfels
+        - viking
+      state: present
+
+  - name: Import DB users
+    mysql_db:
+      state: import
+      login_user: root
+      login_password: Dkt8jzsf#
+      name: all
+      target: /root/db.sql
+  
+  - name: Restart http
+    service:
+        name: httpd
+        state: restarted
+        
+  - name: Restart MariaDB
+    service:
+        name: mariadb
+        state: restarted
+
+  - name: Cleanup Directory
+    file:
+      path: /root/wordpress
+      state: absent
+      
+  - name: Cleanup files
+    file:
+      path: 
+        - /root/wordpress-6.0.1.tar.gz
+        - /root/db.sql
+        - selinux.sh
+      state: absent

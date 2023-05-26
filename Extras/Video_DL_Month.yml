@@ -1,0 +1,9 @@
+# Ansible Playbook 
+#
+---
+- name: Download YouTube Videos
+  hosts: all
+  tasks:
+
+    - name: Video_DL.yml - Download Videos
+      command: /usr/local/bin/vid_cron_monthly

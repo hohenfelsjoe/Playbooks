@@ -1,0 +1,98 @@
+# Ansible Playbook 
+#
+# Install Lamp
+
+---
+- name: Install LAMP
+  hosts: all
+  tasks:
+
+  - name: Install EPEL
+    dnf:
+      name: 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm'
+      state: present
+      disable_gpg_check: yes
+
+  - name: Install remi-repository
+    dnf:
+      name: 'http://rpms.remirepo.net/enterprise/remi-release-8.rpm'
+      state: present
+      disable_gpg_check: yes
+
+  - name: Enable REMI 8.1
+    dnf:
+      name: '@php:remi-8.1/common'
+      state: present
+
+  - name: Install LAMP packages
+    dnf:
+      name:
+        - httpd
+        - httpd-tools
+        - mariadb-server
+        - mariadb
+        - php
+        - php-opcache
+        - php-gd
+        - php-curl
+        - php-mysqlnd
+        - mod_ssl
+        - openssl
+        - php-fpm
+        - php-json
+        - policycoreutils-python-utils
+        - dnf-utils
+        - tar
+        - wget
+        - curl
+      state: latest
+
+  - name: Set firewall rule to allow https  
+    firewalld:
+      zone: public
+      service: https
+      permanent: true
+      state: enabled
+
+  - name: Set firewall rule to allow http  
+    firewalld:
+      zone: public
+      service: http
+      permanent: true
+      state: enabled
+
+  - name: Reload Firewall
+    service: name=firewalld state=restarted
+    
+  - name: Web service enabled and running
+    service:
+      name: httpd
+      enabled: true
+      state: started
+
+  - name: MariaDB enabled and running
+    service:
+      name: mariadb
+      enabled: true
+      state: started
+
+  - name: edit test.php
+    blockinfile: 
+      path: /var/www/html/test.php
+      create: yes
+      backup: yes
+      marker: "{mark} Test Page!"
+      owner: apache
+      group: apache
+      mode: 0644
+      content: |
+        <?php phpinfo(); ?>
+  
+  - name: Restart http
+    service:
+        name: httpd
+        state: restarted
+  - name: Restart MariaDB
+    service:
+        name: mariadb
+        state: restarted

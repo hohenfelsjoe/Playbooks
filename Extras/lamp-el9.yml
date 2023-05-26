@@ -1,0 +1,106 @@
+# Ansible Playbook 
+#
+# Install Lamp EL9
+
+---
+- name: Install LAMP
+  hosts: all
+  tasks:
+
+  - name: dnf_update.yml - Install Code Ready Builder
+    command: subscription-manager repos --enable codeready-builder-for-rhel-9-x86_64-rpms 
+
+  - name: dnf_update.yml - Install epel 9
+    dnf: 
+      name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+      state: present
+      disable_gpg_check: yes
+
+  - name: Install LAMP packages
+    dnf:
+      name:
+        - httpd
+        - httpd-tools
+        - mariadb-server
+        - mariadb
+        - php
+        - php-opcache
+        - php-gd
+        - php-curl
+        - php-mysqlnd
+        - mod_ssl
+        - openssl
+        - php-fpm
+        - php-json
+        - policycoreutils-python-utils
+        - dnf-utils
+        - tar
+        - wget
+        - curl
+        - phpMyAdmin
+        - pip
+      state: latest
+
+  - name: Install pymysql
+    pip:
+      name: pymysql
+      state: present
+
+  - name: Set firewall rule to allow https  
+    firewalld:
+      zone: public
+      service: https
+      permanent: true
+      state: enabled
+
+  - name: Set firewall rule to allow http  
+    firewalld:
+      zone: public
+      service: http
+      permanent: true
+      state: enabled
+
+  - name: Reload Firewall
+    service: name=firewalld state=restarted
+    
+  - name: Web service enabled and running
+    service:
+      name: httpd
+      enabled: true
+      state: started
+
+  - name: MariaDB enabled and running
+    service:
+      name: mariadb
+      enabled: true
+      state: started
+
+  - name: edit test.php
+    blockinfile: 
+      path: /var/www/html/test.php
+      create: yes
+      backup: yes
+      marker: "{mark} PHP Test Page!"
+      owner: apache
+      group: apache
+      mode: 0644
+      content: |
+        <?php phpinfo(); ?>
+
+  - name: Copy phpMyAdmin
+    copy:
+      src: ../files/phpMyAdmin.conf
+      dest: /etc/httpd/conf.d/phpMyAdmin.conf
+      owner: root
+      group: root
+      mode: 0644
+  
+  - name: Restart http
+    service:
+        name: httpd
+        state: restarted
+        
+  - name: Restart MariaDB
+    service:
+        name: mariadb
+        state: restarted

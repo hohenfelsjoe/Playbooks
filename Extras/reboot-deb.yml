@@ -1,0 +1,19 @@
+# Ansible Playbook 
+#
+---
+- name: Check if reboot needed APT
+  hosts: all
+  tasks:
+
+  - name: Check if reboot required
+    stat:
+      path: /var/run/reboot-required
+    register: reboot_required_file
+
+  - name: display result
+    debug:
+      var: reboot_required_file
+
+  - name: Reboot if required
+    reboot:
+    when: reboot_required_file.stat.exists == true

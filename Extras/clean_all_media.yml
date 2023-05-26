@@ -1,0 +1,37 @@
+# Ansible Playbook 
+#
+---
+- name: Clean Media Directory
+  hosts: all
+  tasks:
+
+    - name: clean_all_media.yml - remove exif data
+      command: exiftool -progress -r -overwrite_original -all= -copyright="NONEYA LLC" /mnt/share/Armory
+      ignore_errors: yes
+      tags:
+      - armory 
+
+    - name: clean_all_media.yml - remove exif data
+      command: exiftool -progress -r -overwrite_original -all= -copyright="NONEYA LLC" /mnt/share/Books
+      ignore_errors: yes
+      tags:
+      - books 
+
+    - name: clean_all_media.yml - remove exif data
+      command: exiftool -progress -r -overwrite_original -all= -copyright="NONEYA LLC" /mnt/share/Movies
+      ignore_errors: yes
+      tags:
+      - movies 
+
+    - name: clean_all_media.yml - remove exif data
+      command: exiftool -progress -r -overwrite_original -all= -copyright="NONEYA LLC" /mnt/share/Music
+      ignore_errors: yes
+      tags:
+      - music
+
+    - name: clean_all_media.yml - remove exif data
+      command: exiftool -progress -r -overwrite_original -all= -copyright="NONEYA LLC" /mnt/share/Videos
+      ignore_errors: yes
+      tags:
+      - videos
+      

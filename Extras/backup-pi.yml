@@ -1,0 +1,10 @@
+# Ansible Playbook 
+#
+---
+- name: Backup Pi
+  hosts: all
+  tasks:
+
+    - name: backup-pi.yml - Backup Raspberry Pi
+      command: /home/erik/bin/backup-pi.sh
+

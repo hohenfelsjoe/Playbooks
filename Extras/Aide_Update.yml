@@ -1,0 +1,16 @@
+# Ansible Playbook 
+#
+---
+- name: Aide_Update.yml
+  hosts: all
+  tasks:
+
+    - name: Aide_Update.yml - Update the DB
+      command: /usr/sbin/aide --update
+      ignore_errors: yes
+
+    - name: Aide_Update.yml - Move the DB
+      command: mv /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz
+
+    - name: Aide_Update.yml - Test it
+      command: /usr/local/bin/aide.sh

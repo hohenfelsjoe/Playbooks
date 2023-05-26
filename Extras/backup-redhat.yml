@@ -1,0 +1,9 @@
+# Ansible Playbook 
+#
+---
+- name: Backup Redhat
+  hosts: all
+  tasks:
+
+    - name: backup-redhat.yml - Backup git01
+      command: /home/erik/bin/backup-redhat.sh

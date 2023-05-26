@@ -1,0 +1,109 @@
+# Ansible Playbook 
+# Erik van Oudheusden erik.vanoudheusden@va.gov
+# Reviewed: 01/09/20
+# Install LibreNMS Service Checks
+
+---
+- name: Install LibreNMS Plugins
+  hosts: all
+  tasks:
+  - name: Install LibreNMS MRPE binary
+    copy:
+      src: files/check_mk_agent
+      dest: /usr/bin/check_mk_agent
+      owner: root
+      group: root 
+      mode: 755
+
+  - name: Install LibreNMS MRPE service
+    copy:
+      src: files/check_mk@.service
+      dest: /etc/systemd/system
+      owner: root
+      group: root 
+      mode: 755
+
+  - name: Copy LibreNMS MRPE service
+    copy:
+      src: files/check_mk.socket
+      dest: /etc/systemd/system
+      owner: root
+      group: root 
+      mode: 755
+
+  #- name: Create App Plugin Directory
+  #  file: 
+  #    path: /usr/lib/check_mk_agent/plugins
+  #    state: directory
+  #    owner: root 
+  #    group: root 
+  #    recurse: yes
+  #    mode: 0755
+
+  #- name: Create Check Directory 
+  #  file: 
+  #    path: /usr/lib/check_mk_agent/local
+  #    state: directory
+  #    owner: root 
+  #    group: root
+  #    recurse: yes 
+  #    mode: 0755
+
+  - name: Create Plugin Directory 
+    file: 
+      path:  /usr/lib64/nagios/plugins/
+      state: directory
+      owner: root 
+      group: root 
+      recurse: yes
+      mode: 0755
+
+  - name: Enable a CodeReady repository
+    command: subscription-manager repos --enable codeready-builder-for-rhel-8-x86_64-rpms
+    ignore_errors: yes
+
+  - name: Add EPEL repository
+    dnf:
+      name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+      disable_gpg_check: yes
+      state: present
+
+  - name: Install the plugins
+    dnf:
+      name:
+        - nagios-plugins-all
+
+  - name: Create Config Directory 
+    file: 
+      path:  /etc/check_mk/
+      state: directory
+      owner: root 
+      group: root 
+      mode: 0755
+
+  - name: copy mrpe conf file
+    copy:
+      src: files/mrpe.cfg
+      dest:  /etc/check_mk/mrpe.cfg
+      owner: root 
+      group: root 
+      mode: 0755
+
+  - name: open firewall
+    firewalld:
+      zone: public
+      port: 6556/tcp
+      permanent: true
+      immediate: true
+      state: enabled 
+
+  - name: Force systemd to reread configs
+    systemd:
+      daemon_reload: yes
+
+  - name: MRPE service enabled and running
+    service:
+      name: check_mk.socket
+      enabled: true
+      state: started
+
