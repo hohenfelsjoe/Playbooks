@@ -40,10 +40,10 @@ rrdtool update dryer_temp_out.rrd $DATE:$TEMP_OUT
 rrdtool update dryer_humid_out.rrd $DATE:$HUMID_OUT
 
 # Create the Daily Graphs
-rrdtool graph /etc/filament/dryer_temp_in_day.png -s -1day DEF:dryer_temp_in=dryer_temp_in.rrd:temp:AVERAGE LINE1:dryer_temp_in#FF0000 -h 400 -w 600 -y1:2 --color GRID#000000 --color MGRID#000000
-rrdtool graph /etc/filament/dryer_humid_in_day.png -s -1day DEF:dryer_humid_in=dryer_humid_in.rrd:temp:AVERAGE LINE1:dryer_humid_in#0000FF -h 400 -w 600 -y1:2 --color GRID#000000 --color MGRID#000000 
-rrdtool graph /etc/filament/dryer_temp_out_day.png -s -1day DEF:dryer_temp_out=dryer_temp_out.rrd:temp:AVERAGE LINE1:dryer_temp_out#00FF00 -h 400 -w 600 -y1:2 --color GRID#000000 --color MGRID#000000
-rrdtool graph /etc/filament/dryer_humid_out_day.png -s -1day DEF:dryer_humid_out=dryer_humid_out.rrd:temp:AVERAGE LINE1:dryer_humid_out#FF00FF -h 400 -w 600 -y1:2 --color GRID#000000 --color MGRID#000000 
+rrdtool graph --slope-mode /etc/filament/dryer_temp_in_day.png -s -1day DEF:dryer_temp_in=dryer_temp_in.rrd:temp:AVERAGE LINE1:dryer_temp_in#FF0000:"Inside Temp" -h 400 -w 600 -y1:2 --color GRID#000000 --color MGRID#000000
+rrdtool graph --slope-mode /etc/filament/dryer_humid_in_day.png -s -1day DEF:dryer_humid_in=dryer_humid_in.rrd:temp:AVERAGE LINE1:dryer_humid_in#0000FF -h 400 -w 600 -y1:2 --color GRID#000000 --color MGRID#000000 
+rrdtool graph --slope-mode /etc/filament/dryer_temp_out_day.png -s -1day DEF:dryer_temp_out=dryer_temp_out.rrd:temp:AVERAGE LINE1:dryer_temp_out#00FF00 -h 400 -w 600 -y1:2 --color GRID#000000 --color MGRID#000000
+rrdtool graph --slope-mode /etc/filament/dryer_humid_out_day.png -s -1day DEF:dryer_humid_out=dryer_humid_out.rrd:temp:AVERAGE LINE1:dryer_humid_out#FF00FF -h 400 -w 600 -y1:2 --color GRID#000000 --color MGRID#000000 
 /bin/cp /etc/filament/dryer_temp_in_day.png /mnt/share/temperatures/dryer/
 /bin/cp /etc/filament/dryer_humid_in_day.png /mnt/share/temperatures/dryer/
 /bin/cp /etc/filament/dryer_temp_out_day.png /mnt/share/temperatures/dryer/
