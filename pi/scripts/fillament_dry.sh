@@ -40,10 +40,10 @@ rrdtool update dryer_temp_out.rrd $DATE:$TEMP_OUT
 rrdtool update dryer_humid_out.rrd $DATE:$HUMID_OUT
 
 # Create the Daily Graphs
-rrdtool graph /etc/filament/dryer_temp_in_day.png -s -1day DEF:dryer_temp_in=dryer_temp_in.rrd:temp:AVERAGE LINE1:dryer_temp_in#00ff00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#e52000
-rrdtool graph /etc/filament/dryer_humid_in_day.png -s -1day DEF:dryer_humid_in=dryer_humid_in.rrd:temp:AVERAGE LINE1:dryer_humid_in#00ff00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#0012fa 
-rrdtool graph /etc/filament/dryer_temp_out_day.png -s -1day DEF:dryer_temp_out=dryer_temp_out.rrd:temp:AVERAGE LINE1:dryer_temp_out#00ff00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#fd01a4
-rrdtool graph /etc/filament/dryer_humid_out_day.png -s -1day DEF:dryer_humid_out=dryer_humid_out.rrd:temp:AVERAGE LINE1:dryer_humid_out#00ff00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#87ceeb 
+rrdtool graph /etc/filament/dryer_temp_in_day.png -s -1day DEF:dryer_temp_in=dryer_temp_in.rrd:temp:AVERAGE LINE1:dryer_temp_in#00ff00 -h 400 -w 600 -y1:2 --color GRID#e52000 --color MGRID#000000
+rrdtool graph /etc/filament/dryer_humid_in_day.png -s -1day DEF:dryer_humid_in=dryer_humid_in.rrd:temp:AVERAGE LINE1:dryer_humid_in#00ff00 -h 400 -w 600 -y1:2 --color GRID#0012fa --color MGRID#000000 
+rrdtool graph /etc/filament/dryer_temp_out_day.png -s -1day DEF:dryer_temp_out=dryer_temp_out.rrd:temp:AVERAGE LINE1:dryer_temp_out#00ff00 -h 400 -w 600 -y1:2 --color GRID#fd01a4 --color MGRID#000000
+rrdtool graph /etc/filament/dryer_humid_out_day.png -s -1day DEF:dryer_humid_out=dryer_humid_out.rrd:temp:AVERAGE LINE1:dryer_humid_out#00ff00 -h 400 -w 600 -y1:2 --color GRID#87ceeb --color MGRID#000000 
 /bin/cp /etc/filament/dryer_temp_in_day.png /mnt/share/temperatures/dryer/
 /bin/cp /etc/filament/dryer_humid_in_day.png /mnt/share/temperatures/dryer/
 /bin/cp /etc/filament/dryer_temp_out_day.png /mnt/share/temperatures/dryer/
@@ -100,37 +100,59 @@ rrdtool graph /etc/filament/dryer_humid_out_5year.png -s -5year DEF:dryer_humid_
 /bin/cp /etc/filament/dryer_humid_out_5year.png /mnt/share/temperatures/dryer/
 
 #Create the combined daily graph
-rrdtool graph /etc/filament/local_combine_dryer_day.png -s -1day DEF:dryer_temp=dryer_temp_in.rrd:temp:AVERAGE LINE1:dryer_temp#00ff00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#e52000 DEF:dryer_humid=dryer_humid_in.rrd:temp:AVERAGE LINE1:dryer_humid#ff0000 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
-/bin/cp /etc/filament/local_combine_dryer_day.png /mnt/share/temperatures/dryer/
+rrdtool graph /etc/filament/combine_dryer_temp_day.png -s -1day DEF:dryer_temp_in=dryer_temp_in.rrd:temp:AVERAGE LINE1:dryer_temp_in#00ff00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#e52000 DEF:dryer_temp_out=dryer_temp_out.rrd:temp:AVERAGE LINE1:dryer_temp_out#ff0000 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
+rrdtool graph /etc/filament/combine_dryer_humid_day.png -s -1day DEF:dryer_humid_in=dryer_humid_in.rrd:temp:AVERAGE LINE1:dryer_humid_in#00ff00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#e52000 DEF:dryer_humid_out=dryer_humid_out.rrd:temp:AVERAGE LINE1:dryer_humid_out#ff0000 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
+/bin/cp /etc/filament/combine_dryer_temp_day.png /mnt/share/temperatures/dryer/
+/bin/cp /etc/filament/combine_dryer_humid_day.png /mnt/share/temperatures/dryer/
 
 #Create the combined weekly graph
-rrdtool graph /etc/filament/local_combine_dryer_week.png -s -1week DEF:dryer_temp=dryer_temp_in.rrd:temp:AVERAGE LINE1:dryer_temp#00ff00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#e52000 DEF:dryer_humid=dryer_humid_in.rrd:temp:AVERAGE LINE1:dryer_humid#ff0000 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
-/bin/cp /etc/filament/local_combine_dryer_week.png /mnt/share/temperatures/dryer/
+rrdtool graph /etc/filament/combine_dryer_temp_week.png -s -1week DEF:dryer_temp_in=dryer_temp_in.rrd:temp:AVERAGE LINE1:dryer_temp_in#00ff00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#e52000 DEF:dryer_temp_out=dryer_temp_out.rrd:temp:AVERAGE LINE1:dryer_temp_out#ff0000 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
+rrdtool graph /etc/filament/combine_dryer_humid_week.png -s -1week DEF:dryer_humid_in=dryer_humid_in.rrd:temp:AVERAGE LINE1:dryer_humid_in#00ff00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#e52000 DEF:dryer_humid_out=dryer_humid_out.rrd:temp:AVERAGE LINE1:dryer_humid_out#ff0000 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
+/bin/cp /etc/filament/combine_dryer_temp_week.png /mnt/share/temperatures/dryer/
+/bin/cp /etc/filament/combine_dryer_humid_week.png /mnt/share/temperatures/dryer/
 
 #Create the combined monthly graph
-rrdtool graph /etc/filament/local_combine_dryer_month.png -s -1month DEF:dryer_temp=dryer_temp_in.rrd:temp:AVERAGE LINE1:dryer_temp#00ff00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa DEF:dryer_humid=dryer_humid_in.rrd:temp:AVERAGE LINE1:dryer_humid#ff0000 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
-/bin/cp /etc/filament/local_combine_dryer_month.png /mnt/share/temperatures/dryer/
+rrdtool graph /etc/filament/combine_dryer_temp_month.png -s -1month DEF:dryer_temp_in=dryer_temp_in.rrd:temp:AVERAGE LINE1:dryer_temp_in#00ff00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#e52000 DEF:dryer_temp_out=dryer_temp_out.rrd:temp:AVERAGE LINE1:dryer_temp_out#ff0000 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
+rrdtool graph /etc/filament/combine_dryer_humid_month.png -s -1month DEF:dryer_humid_in=dryer_humid_in.rrd:temp:AVERAGE LINE1:dryer_humid_in#00ff00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#e52000 DEF:dryer_humid_out=dryer_humid_out.rrd:temp:AVERAGE LINE1:dryer_humid_out#ff0000 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
+/bin/cp /etc/filament/combine_dryer_temp_month.png /mnt/share/temperatures/dryer/
+/bin/cp /etc/filament/combine_dryer_humid_month.png /mnt/share/temperatures/dryer/
 
 #Create the combined yearly graph
-rrdtool graph /etc/filament/local_combine_dryer_year.png -s -1year DEF:dryer_temp=dryer_temp_in.rrd:temp:AVERAGE LINE1:dryer_temp#00ff00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa DEF:dryer_humid=dryer_humid_in.rrd:temp:AVERAGE LINE1:dryer_humid#ff0000 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
-/bin/cp /etc/filament/local_combine_dryer_year.png /mnt/share/temperatures/dryer/
+rrdtool graph /etc/filament/combine_dryer_temp_year.png -s -1year DEF:dryer_temp_in=dryer_temp_in.rrd:temp:AVERAGE LINE1:dryer_temp_in#00ff00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#e52000 DEF:dryer_temp_out=dryer_temp_out.rrd:temp:AVERAGE LINE1:dryer_temp_out#ff0000 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
+rrdtool graph /etc/filament/combine_dryer_humid_year.png -s -1year DEF:dryer_humid_in=dryer_humid_in.rrd:temp:AVERAGE LINE1:dryer_humid_in#00ff00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#e52000 DEF:dryer_humid_out=dryer_humid_out.rrd:temp:AVERAGE LINE1:dryer_humid_out#ff0000 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
+/bin/cp /etc/filament/combine_dryer_temp_year.png /mnt/share/temperatures/dryer/
+/bin/cp /etc/filament/combine_dryer_humid_year.png /mnt/share/temperatures/dryer/
 
 #Create the combined 2 year graph
-rrdtool graph /etc/filament/local_combine_dryer_2year.png -s -2year DEF:dryer_temp=dryer_temp_in.rrd:temp:AVERAGE LINE1:dryer_temp#00ff00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa DEF:dryer_humid=dryer_humid_in.rrd:temp:AVERAGE LINE1:dryer_humid#ff0000 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
-/bin/cp /etc/filament/local_combine_dryer_2year.png /mnt/share/temperatures/dryer/
+rrdtool graph /etc/filament/combine_dryer_temp_2year.png -s -2year DEF:dryer_temp_in=dryer_temp_in.rrd:temp:AVERAGE LINE1:dryer_temp_in#00ff00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#e52000 DEF:dryer_temp_out=dryer_temp_out.rrd:temp:AVERAGE LINE1:dryer_temp_out#ff0000 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
+rrdtool graph /etc/filament/combine_dryer_humid_2year.png -s -2year DEF:dryer_humid_in=dryer_humid_in.rrd:temp:AVERAGE LINE1:dryer_humid_in#00ff00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#e52000 DEF:dryer_humid_out=dryer_humid_out.rrd:temp:AVERAGE LINE1:dryer_humid_out#ff0000 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
+/bin/cp /etc/filament/combine_dryer_temp_2year.png /mnt/share/temperatures/dryer/
+/bin/cp /etc/filament/combine_dryer_humid_2year.png /mnt/share/temperatures/dryer/
 
 #Create the combined 5 year graph
-rrdtool graph /etc/filament/local_combine_dryer_5year.png -s -5year DEF:dryer_temp=dryer_temp_in.rrd:temp:AVERAGE LINE1:dryer_temp#00ff00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa DEF:dryer_humid=dryer_humid_in.rrd:temp:AVERAGE LINE1:dryer_humid#ff0000 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
-/bin/cp /etc/filament/local_combine_dryer_5year.png /mnt/share/temperatures/dryer/
+rrdtool graph /etc/filament/combine_dryer_temp_5year.png -s -5year DEF:dryer_temp_in=dryer_temp_in.rrd:temp:AVERAGE LINE1:dryer_temp_in#00ff00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#e52000 DEF:dryer_temp_out=dryer_temp_out.rrd:temp:AVERAGE LINE1:dryer_temp_out#ff0000 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
+rrdtool graph /etc/filament/combine_dryer_humid_5year.png -s -5year DEF:dryer_humid_in=dryer_humid_in.rrd:temp:AVERAGE LINE1:dryer_humid_in#00ff00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#e52000 DEF:dryer_humid_out=dryer_humid_out.rrd:temp:AVERAGE LINE1:dryer_humid_out#ff0000 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
+/bin/cp /etc/filament/combine_dryer_temp_5year.png /mnt/share/temperatures/dryer/
+/bin/cp /etc/filament/combine_dryer_humid_5year.png /mnt/share/temperatures/dryer/
 
 #Copy RRD to Share
 /usr/bin/rrdtool dump dryer_temp_in.rrd dryer_temp_in.xml
 /usr/bin/rrdtool dump dryer_humid_in.rrd dryer_humid_in.xml
+/usr/bin/rrdtool dump dryer_temp_out.rrd dryer_temp_out.xml
+/usr/bin/rrdtool dump dryer_humid_out.rrd dryer_humid_out.xml
 /bin/rm /mnt/share/temperatures/dryer/dryer_temp_in.rrd
 /bin/rm /mnt/share/temperatures/dryer/dryer_temp_in.xml
 /bin/rm /mnt/share/temperatures/dryer/dryer_humid_in.rrd
 /bin/rm /mnt/share/temperatures/dryer/dryer_humid_in.xml
+/bin/rm /mnt/share/temperatures/dryer/dryer_temp_out.rrd
+/bin/rm /mnt/share/temperatures/dryer/dryer_temp_out.xml
+/bin/rm /mnt/share/temperatures/dryer/dryer_humid_out.rrd
+/bin/rm /mnt/share/temperatures/dryer/dryer_humid_out.xml
 /bin/cp dryer_temp_in.rrd /mnt/share/temperatures/dryer/
 /bin/cp dryer_temp_in.xml /mnt/share/temperatures/dryer/
 /bin/cp dryer_humid_in.rrd /mnt/share/temperatures/dryer/
 /bin/cp dryer_humid_in.xml /mnt/share/temperatures/dryer/
+/bin/cp dryer_temp_out.rrd /mnt/share/temperatures/dryer/
+/bin/cp dryer_temp_out.xml /mnt/share/temperatures/dryer/
+/bin/cp dryer_humid_out.rrd /mnt/share/temperatures/dryer/
+/bin/cp dryer_humid_out.xml /mnt/share/temperatures/dryer/
