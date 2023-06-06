@@ -31,16 +31,16 @@ echo $DATE >> debug.log
 rrdtool update enphase.rrd $DATE:$KW
 
 #create daily graph 
-rrdtool graph /var/www/html/enphase/enphase_day.png -s -1day DEF:enphase=enphase.rrd:temp:AVERAGE LINE1:enphase#00CC00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa 
+rrdtool graph /var/www/html/enphase/enphase_day.png -s -1day DEF:enphase=enphase.rrd:temp:AVERAGE LINE1:enphase#00CC00:"Production" -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa 
 
 #create weekly graph 
-rrdtool graph /var/www/html/enphase/enphase_week.png -s -1week DEF:enphase=enphase.rrd:temp:AVERAGE LINE1:enphase#00CC00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa 
+rrdtool graph /var/www/html/enphase/enphase_week.png -s -1week DEF:enphase=enphase.rrd:temp:AVERAGE LINE1:enphase#00CC00:"Production" -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa 
 
 #create monthly graph 
-rrdtool graph /var/www/html/enphase/enphase_month.png -s -1month DEF:enphase=enphase.rrd:temp:AVERAGE LINE1:enphase#00CC00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa 
+rrdtool graph /var/www/html/enphase/enphase_month.png -s -1month DEF:enphase=enphase.rrd:temp:AVERAGE LINE1:enphase#00CC00:"Production" -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa 
 
 #create yearly graph 
-rrdtool graph /var/www/html/enphase/enphase_year.png -s -1year DEF:enphase=enphase.rrd:temp:AVERAGE LINE1:enphase#00CC00 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa 
+rrdtool graph /var/www/html/enphase/enphase_year.png -s -1year DEF:enphase=enphase.rrd:temp:AVERAGE LINE1:enphase#00CC00:"Production" -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa 
 
 #Kill any rrdtool running
 killall -9 rrdtool

@@ -27,16 +27,16 @@ KW=$(/bin/echo "scale=3; $RAW/1000" | bc -l)
 rrdtool update ted_watts.rrd $DATE:$KW
 
 #create daily graph
-rrdtool graph /var/www/html/ted/ted_watts_day.png -s -1day DEF:ted_watts=ted_watts.rrd:temp:AVERAGE LINE1:ted_watts#FF9900 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
+rrdtool graph /var/www/html/ted/ted_watts_day.png -s -1day DEF:ted_watts=ted_watts.rrd:temp:AVERAGE LINE1:ted_watts#FF9900:"Usage" -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
 
 #create weekly graph
-rrdtool graph /var/www/html/ted/ted_watts_week.png -s -1week DEF:ted_watts=ted_watts.rrd:temp:AVERAGE LINE1:ted_watts#FF9900 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
+rrdtool graph /var/www/html/ted/ted_watts_week.png -s -1week DEF:ted_watts=ted_watts.rrd:temp:AVERAGE LINE1:ted_watts#FF9900:"Usage" -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
 
 #create monthly graph
-rrdtool graph /var/www/html/ted/ted_watts_month.png -s -1month DEF:ted_watts=ted_watts.rrd:temp:AVERAGE LINE1:ted_watts#FF9900 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
+rrdtool graph /var/www/html/ted/ted_watts_month.png -s -1month DEF:ted_watts=ted_watts.rrd:temp:AVERAGE LINE1:ted_watts#FF9900:"Usage" -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
 
 #create yearly graph
-rrdtool graph /var/www/html/ted/ted_watts_year.png -s -1year DEF:ted_watts=ted_watts.rrd:temp:AVERAGE LINE1:ted_watts#FF9900 -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
+rrdtool graph /var/www/html/ted/ted_watts_year.png -s -1year DEF:ted_watts=ted_watts.rrd:temp:AVERAGE LINE1:ted_watts#FF9900:"Usage" -h 400 -w 600 -y1:2 --color GRID#dddddd --color MGRID#aaaaaa
 
 #Kill any rrdtool running
 killall -9 rrdtool
