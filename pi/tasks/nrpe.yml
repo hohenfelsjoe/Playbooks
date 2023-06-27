@@ -21,7 +21,7 @@
 
   - name: nrpe.yml - copy nrpe.cfg
     copy:
-      src: ~/bin/Ansible/AnsibleRoles/pi/files/nrpe.cfg
+      src: ../files/nrpe.cfg
       dest: /etc/nagios/nrpe.cfg
       owner: root
       group: root
