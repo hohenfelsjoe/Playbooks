@@ -20,7 +20,7 @@
 
   - name: snmp.yml - Get distro file
     copy:
-      src: ~/bin/Ansible/AnsibleRoles/pi/files/distro
+      src: ../files/distro
       dest: /usr/bin/distro
       owner: root
       group: root
