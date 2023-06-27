@@ -23,7 +23,7 @@
 
   - name: ssh.yml - Set issue.net banner
     copy:
-      src: ../files/pi/issue
+      src: ../files/issue
       dest: /etc/issue
       backup: yes
       owner: root
@@ -40,7 +40,7 @@
 
   - name: ssh.yml - Copy SSH Config
     copy:
-      src: ../files/pi/sshd_config
+      src: ../files/sshd_config
       dest: /etc/ssh/sshd_config
       backup: yes
       owner: root
