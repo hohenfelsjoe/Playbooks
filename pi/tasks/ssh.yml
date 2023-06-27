@@ -24,7 +24,7 @@
   - name: ssh.yml - Set issue.net banner
     copy:
       src: ../files/issue
-      dest: /etc/issue
+      dest: /etc/issue.net
       backup: yes
       owner: root
       group: root
