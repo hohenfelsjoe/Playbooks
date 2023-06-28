@@ -58,11 +58,11 @@
       recurse: yes
       mode: 0755
 
-  #- name: Install the plugins
-  #  apt:
-  #    name:
-  #      - nagios-plugins
-  #      - nagios-nrpe-server
+  - name: Install the plugins
+    apt:
+      name:
+        - nagios-plugins
+        - nagios-nrpe-server
 
   - name: Create Config Directory 
     file: 
@@ -76,6 +76,14 @@
     copy:
       src: files/mrpe.cfg
       dest:  /etc/check_mk/mrpe.cfg
+      owner: root 
+      group: root 
+      mode: 0755
+
+  - name: copy mrpe conf file
+    copy:
+      src: files/octo-nrpe.sh
+      dest:  /usr/lib/nagios/plugins/octo-nrpe.sh
       owner: root 
       group: root 
       mode: 0755
