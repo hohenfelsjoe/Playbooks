@@ -80,7 +80,7 @@
       group: root 
       mode: 0755
 
-  - name: copy mrpe conf file
+  - name: copy octo-nrpe plugin
     copy:
       src: files/octo-nrpe.sh
       dest:  /usr/lib/nagios/plugins/octo-nrpe.sh
