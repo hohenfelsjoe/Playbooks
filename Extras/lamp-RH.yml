@@ -1,9 +1,5 @@
-# Ansible Playbook 
-#
-# Install Lamp
-
 ---
-- name: Install LAMP
+- name: Install LAMP on Red Hat 
   hosts: all
   tasks:
 

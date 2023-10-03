@@ -1,4 +1,8 @@
 ---
+- name: Install LAMP on Ubuntu
+  hosts: all
+  tasks:
+
   - name: Install the LAMP packages
     action: >
       {{ ansible_pkg_mgr }} name={{ item }} state=present update_cache=yes
@@ -10,6 +14,7 @@
       - mariadb-client
       - php-mysql
       - phpmyadmin
+
   - name: Create Test Page
     blockinfile: 
       path: /var/www/html/testphp.php
@@ -21,11 +26,13 @@
       mode: 0644
       content: |
         <?php phpinfo(); ?>
+
   - name: apache2 enabled and running
     service:
       name: apache2
       enabled: true
       state: started
+      
   - name: mariadb enabled and running
     service:
       name: mariadb
