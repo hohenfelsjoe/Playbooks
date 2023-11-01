@@ -1,0 +1,10 @@
+# Ansible Playbook 
+#
+---
+- name: Backup Ubuntu Servers
+  hosts: all
+  tasks:
+
+    - name: backup-u.yml - Backup Ubuntu Servers
+      command: /home/erik/bin/backup-u.sh
+
