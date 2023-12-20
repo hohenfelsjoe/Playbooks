@@ -16,7 +16,7 @@
       state=absent
   - name: Get distro file
     copy:
-      src: ~/ansible-files/roles/pi/files/distro
+      src: ../files/distro
       dest: /usr/bin/distro
       owner: root
       group: root
