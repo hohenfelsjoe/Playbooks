@@ -23,6 +23,8 @@
         - bc
         - logwatch
         - clamav
+        - guake
+        - openssh-server
       state: latest
       
   - name: erik.yml - Copy vimrc
