@@ -58,3 +58,6 @@ if [ -f /var/run/reboot-required ]
 then
     echo "[*** Hello $USER, you must reboot your machine ***]"
 fi
+
+# Add Date and Time to History
+export HISTTIMEFORMAT="%F %T:  "

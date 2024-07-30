@@ -70,7 +70,13 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
-#export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
-#export JAVA_HOME="/usr/lib/jvm/java-6-sun-1.6.0.06/"
-#export CLASSPATH="/usr/lib/jvm/java-6-sun/bin/:/usr/lib/jvm/java-6-sun/jre/lib/rt.jar:/usr/lib/jvm/java-6-sun/jre/lib/comm.jar:./"
-export CLASSPATH=$CLASSPATH:/usr/share/java/mysql-connector-java.jar
+# Add Date and Time to History
+export HISTTIMEFORMAT="%F %T:  "
+
+#Check if we need a reboot
+if [ -f /var/run/reboot-required ]
+then
+    echo "[*** Hello $USER, you must reboot your machine ***]"
+fi
+
+
