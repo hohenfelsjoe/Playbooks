@@ -1,5 +1,17 @@
 ---
 
-- import_tasks: ssh.yml
-- import_tasks: snmp.yml
-- import_tasks: apt_update.yml
+- include_tasks: ssh.yml
+  tags:
+    - ssh
+
+- include_tasks: snmp.yml
+  tags:
+    - snmp 
+
+- include_tasks: apt_update.yml
+  tags:
+    - apt_update
+    - update
+- include_tasks: erik.yml
+  tags:
+    -erik
