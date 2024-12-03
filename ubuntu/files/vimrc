@@ -23,6 +23,7 @@ set whichwrap=b,s,h,l,<,>,[,]   " move freely between files
 set noautoindent
 set nosmartindent
 set nocindent  
+set mouse=a
 
 colorscheme desert
 syntax on

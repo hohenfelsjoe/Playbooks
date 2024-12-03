@@ -20,3 +20,4 @@ set noautoindent
 set nosmartindent
 set nocindent  
 set number
+set mouse=a
